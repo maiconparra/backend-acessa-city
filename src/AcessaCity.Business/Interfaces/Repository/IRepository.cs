@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AcessaCity.Business.Models;
 
-namespace AcessaCity.Business.Interfaces
+namespace AcessaCity.Business.Interfaces.Repository
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     {

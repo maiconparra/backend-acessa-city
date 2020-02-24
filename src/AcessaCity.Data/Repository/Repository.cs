@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AcessaCity.Business.Interfaces;
+using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Models;
 using AcessaCity.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +40,7 @@ namespace AcessaCity.Data.Repository
         {
             return await DbSet.ToListAsync();
         }
-        
+
 
         public virtual async Task<TEntity> GetById(Guid id)
         {

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcessaCity.Business.Models
 {
@@ -8,6 +10,10 @@ namespace AcessaCity.Business.Models
         public string Name { get; set; }
 
         //EF Relations
+        [ForeignKey("CategoryId")]
         public Category ParentCategory { get; set; }
+
+        public IEnumerable<Category> Categories { get; set; }
+
     }
 }
