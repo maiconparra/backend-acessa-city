@@ -13,10 +13,6 @@ namespace AcessaCity.Data.Mappings
             builder.Property(c => c.Name)
                 .IsRequired()
                 .HasColumnType("varchar(120)");
-
-            builder.HasOne(c => c.ParentCategory)
-                .WithMany(p => p.Categories)
-                .IsRequired(false);
         }
     }
 }
