@@ -1,7 +1,11 @@
+using System;
+using System.Threading.Tasks;
+using AcessaCity.Business.Models;
+
 namespace AcessaCity.Business.Interfaces.Service
 {
-    public class ICategoryService
+    public interface ICategoryService : IDisposable
     {
-        
+        Task Add(Category category);
     }
 }

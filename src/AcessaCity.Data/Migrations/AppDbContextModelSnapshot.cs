@@ -23,18 +23,16 @@ namespace AcessaCity.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid?>("CategoryId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<Guid?>("ParentCategoryId")
-                        .HasColumnType("char(36)");
+                        .IsRequired()
+                        .HasColumnType("varchar(120)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentCategoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -42,8 +40,8 @@ namespace AcessaCity.Data.Migrations
             modelBuilder.Entity("AcessaCity.Business.Models.Category", b =>
                 {
                     b.HasOne("AcessaCity.Business.Models.Category", "ParentCategory")
-                        .WithMany()
-                        .HasForeignKey("ParentCategoryId");
+                        .WithMany("Categories")
+                        .HasForeignKey("CategoryId");
                 });
 #pragma warning restore 612, 618
         }

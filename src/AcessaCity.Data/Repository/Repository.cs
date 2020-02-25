@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AcessaCity.Business.Interfaces;
+using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Models;
 using AcessaCity.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +18,7 @@ namespace AcessaCity.Data.Repository
         public Repository(AppDbContext db)
         {
             Db = db;
+            DbSet = db.Set<TEntity>();            
         }
 
         public virtual async Task Add(TEntity entity)
@@ -40,7 +41,7 @@ namespace AcessaCity.Data.Repository
         {
             return await DbSet.ToListAsync();
         }
-        
+
 
         public virtual async Task<TEntity> GetById(Guid id)
         {
