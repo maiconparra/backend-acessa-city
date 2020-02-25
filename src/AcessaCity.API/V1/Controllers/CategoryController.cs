@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
+using AcessaCity.API.Dtos;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcessaCity.API.V1.Controllers
@@ -15,18 +17,22 @@ namespace AcessaCity.API.V1.Controllers
 
         private readonly ICategoryRepository _repository;
         private readonly INotifier _notifier;
+        private readonly IMapper _mapper;
+
         public CategoryController(
             INotifier notifier, 
-            ICategoryRepository repository) : base(notifier)
+            ICategoryRepository repository,
+            IMapper mapper) : base(notifier)
         {
             _notifier = notifier;
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Category>> Get()
+        public async Task<IEnumerable<CategoryDto>> Get()
         {
-            return await _repository.GetAll();
+            return _mapper.Map<IEnumerable<CategoryDto>>(await _repository.GetAll());
         }
     }
 }

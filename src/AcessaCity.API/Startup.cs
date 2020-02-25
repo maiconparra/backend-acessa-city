@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AcessaCity.API.Configuration;
 using AcessaCity.Data.Context;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,9 +33,12 @@ namespace AcessaCity.API
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
             });            
+            services.AddAutoMapper(typeof(Startup));
             services.ResolveDependencies();
             services.WebAPIConfig();
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
