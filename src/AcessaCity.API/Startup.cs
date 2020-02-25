@@ -31,7 +31,9 @@ namespace AcessaCity.API
         {
             services.AddDbContext<AppDbContext>(options =>
             {
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
+                    .UseLazyLoadingProxies()
+                ;
             });            
             services.AddAutoMapper(typeof(Startup));
             services.ResolveDependencies();

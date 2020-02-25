@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
@@ -32,7 +33,21 @@ namespace AcessaCity.API.V1.Controllers
         [HttpGet]
         public async Task<IEnumerable<CategoryDto>> Get()
         {
-            return _mapper.Map<IEnumerable<CategoryDto>>(await _repository.GetAll());
+            return _mapper.Map<IEnumerable<CategoryDto>>(await _repository.GetAll());        
         }
+        
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<CategoryDto>> GetById(Guid id)
+        {
+            CategoryDto category = _mapper.Map<CategoryDto>(await _repository.GetById(id));
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return category;
+        }
+
     }
 }

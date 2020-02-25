@@ -11,9 +11,9 @@ namespace AcessaCity.Business.Models
 
         //EF Relations
         [ForeignKey("CategoryId")]
-        public Category ParentCategory { get; set; }
+        public virtual Category ParentCategory { get; set; }
 
-        public IEnumerable<Category> Categories { get; set; }
+        public virtual IEnumerable<Category> Categories { get; set; }
 
     }
 }
