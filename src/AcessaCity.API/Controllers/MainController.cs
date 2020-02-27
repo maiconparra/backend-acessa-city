@@ -64,7 +64,7 @@ namespace AcessaCity.API.Controllers
             }
         }
 
-        void NotifyError(string message)
+        protected void NotifyError(string message)
         {
             _notifier.Handle(new Notification(message));
         }
