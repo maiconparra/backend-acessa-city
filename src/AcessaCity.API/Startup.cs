@@ -34,13 +34,11 @@ namespace AcessaCity.API
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
                     .UseLazyLoadingProxies()
                 ;
-            });            
+            });                    
+            //services.AddMvc().AddNewtonsoftJson();
             services.AddAutoMapper(typeof(Startup));
             services.ResolveDependencies();
-            services.WebAPIConfig();
-            services.AddControllers()
-                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
+            services.WebAPIConfig();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,9 +49,9 @@ namespace AcessaCity.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            app.UseHttpsRedirection();
 
-            //app.UseMvcConfiguration();            
+            app.UseRouting();
 
             app.UseAuthorization();
 

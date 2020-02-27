@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace AcessaCity.API.Controllers
 {
+    [ApiController]
     public class MainController: ControllerBase
     {
         private readonly INotifier _notifier;

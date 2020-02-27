@@ -35,8 +35,8 @@ namespace AcessaCity.API.V1.Controllers
         {
             return _mapper.Map<IEnumerable<CategoryDto>>(await _repository.GetAll());        
         }
-        
-        [HttpGet("{id:guid}")]
+
+        [HttpGet("{id:guid}", Name = "GetCategory")]
         public async Task<ActionResult<CategoryDto>> GetById(Guid id)
         {
             CategoryDto category = _mapper.Map<CategoryDto>(await _repository.GetById(id));
@@ -47,6 +47,23 @@ namespace AcessaCity.API.V1.Controllers
             }
 
             return category;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Add(CategoryInsertDto category)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
+
+            Category newCategory = new Category();
+            newCategory.Name = category.Name;
+            
+            if (category.CategoryId != Guid.Empty)
+            {
+               newCategory.CategoryId = category.CategoryId;
+            }
+            await _repository.Add(newCategory);
+
+            return CreatedAtAction(nameof(GetById), new {Id = newCategory.Id, Version = "1.0"}, null);
         }
 
     }

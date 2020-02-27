@@ -8,7 +8,9 @@ namespace AcessaCity.API.Configuration
     {
         public static IServiceCollection WebAPIConfig(this IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers()
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddApiVersioning(options => {
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -54,8 +56,8 @@ namespace AcessaCity.API.Configuration
 
         public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
         {
-            app.UseHttpsRedirection();
-            //app.UseMvc();
+            // app.UseHttpsRedirection();
+            // app.UseMvc();
             return app;
         }        
     }
