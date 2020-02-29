@@ -103,13 +103,6 @@ namespace AcessaCity.API.V1.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            // var categoryToDelete = await _repository.GetById(id);
-
-            // if (categoryToDelete == null)
-            // {
-            //     return NotFound();
-            // }
-
             await _service.Remove(id);
             return CustomResponse();
         }
