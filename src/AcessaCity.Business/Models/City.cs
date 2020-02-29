@@ -8,10 +8,10 @@ namespace AcessaCity.Business.Models
         public Guid StateId { get; set; }
         public int IBGECode { get; set; }
         public string Name { get; set; }
-        public decimal Latitude { get; set; }
-        public decimal Longitude { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
-        [ForeignKey("CategoryId")]
+        [ForeignKey("StateId")]
         public virtual State CityState {get; set; }
     }
 }

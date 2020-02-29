@@ -16,6 +16,7 @@ namespace AcessaCity.API.Configuration
             services.AddScoped<AppDbContext>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IStateRepository, StateRepository>();
             services.AddScoped<INotifier, Notifier>();
 
             return services;
