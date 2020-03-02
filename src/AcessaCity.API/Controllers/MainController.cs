@@ -72,6 +72,12 @@ namespace AcessaCity.API.Controllers
             _notifier.Handle(new Notification(message));
         }
 
+        protected void RefreshCurrentUser()
+        {
+            _user = null;
+            _user = CurrentUser();
+        }
+
         protected UserRecord CurrentUser()
         {
             if (_user != null)
@@ -84,7 +90,6 @@ namespace AcessaCity.API.Controllers
 
             return _user;
         }
-
 
     }
 }
