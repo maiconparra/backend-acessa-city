@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using AcessaCity.API.Configuration;
 using AcessaCity.Data.Context;
 using AutoMapper;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AcessaCity.API
 {
@@ -22,6 +26,10 @@ namespace AcessaCity.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile("./Configuration/GoogleCredentials.json")
+            });
         }
 
         public IConfiguration Configuration { get; }
@@ -35,7 +43,20 @@ namespace AcessaCity.API
                     .UseLazyLoadingProxies()
                 ;
             });                    
-            //services.AddMvc().AddNewtonsoftJson();
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = "https://securetoken.google.com/acessa-city";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://securetoken.google.com/acessa-city",
+                        ValidateAudience = true,
+                        ValidAudience = "acessa-city",
+                        ValidateLifetime = true
+                    };
+                });
             services.AddAutoMapper(typeof(Startup));
             services.ResolveDependencies();
             services.WebAPIConfig();            
@@ -53,6 +74,7 @@ namespace AcessaCity.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

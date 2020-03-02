@@ -3,12 +3,15 @@ using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Authorization;
+using FirebaseAdmin.Auth;
 
 namespace AcessaCity.API.Controllers
 {
     [ApiController]
     public class MainController: ControllerBase
     {
+        private UserRecord _user = null;
         private readonly INotifier _notifier;
 
         public MainController(INotifier notifier)
@@ -67,6 +70,19 @@ namespace AcessaCity.API.Controllers
         protected void NotifyError(string message)
         {
             _notifier.Handle(new Notification(message));
+        }
+
+        protected UserRecord CurrentUser()
+        {
+            if (_user != null)
+            {
+                return _user;
+            }
+            
+            var userId = User.Claims.Where(x => x.Type == "user_id").FirstOrDefault().Value;
+            _user = FirebaseAuth.DefaultInstance.GetUserAsync(userId).Result;
+
+            return _user;
         }
 
 

@@ -11,6 +11,7 @@ namespace AcessaCity.Data.Context
         public DbSet<State> States { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<CityHall> CityHalls { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -19,6 +20,7 @@ namespace AcessaCity.Data.Context
             modelBuilder.ApplyConfiguration(new CategoryMapping());
             modelBuilder.ApplyConfiguration(new StateMapping());
             modelBuilder.ApplyConfiguration(new CityMapping());
+            modelBuilder.ApplyConfiguration(new UserMapping());
 
             base.OnModelCreating(modelBuilder);
         }        
