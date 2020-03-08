@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-
-
 
 namespace AcessaCity.Business.Models
 {
    public class ReportAttachment: Entity
    {
-      public Guid? reportId { get; set; }
-      [ForeignKey("reportId")]
+      public Guid ReportId { get; set; }
+      public string MediaType { get; set; }
+      public string Url { get; set; }
 
-      public string meidaType { get; set; }
 
-      public string url { get; set; }
+      [ForeignKey("ReportId")]
+      public virtual Report Report { get; set; }
    }
 }

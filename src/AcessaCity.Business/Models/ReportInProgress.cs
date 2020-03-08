@@ -1,28 +1,25 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-
-
 
 namespace AcessaCity.Business.Models
 {
   public class ReportInProgress: Entity
   {
-     public Guid? reportId { get; set; }
-     [ForeignKey("reportId")]
+    public Guid ReportId { get; set; }
+    public Guid InteractionHistoryId { get; set; }
+    public Guid UserId { get; set; }
+    public DateTime CreationDate { get; set; }
+    public DateTime EstimatadeFinishDate { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime DoneDate { get; set; }
 
-     public Guid? interactionHistoryId { get; set; }
-     [ForeignKey("interactionHistoryId")]
+    [ForeignKey("ReportId")]
+    public virtual Report Report { get; set; }
 
-     public Guid? userId { get; set; }
-     [ForeignKey("userId")]
+    [ForeignKey("InteractionHistoryId")]
+    public virtual InteractionHistory InteractionHistory { get; set; }
 
-     public DateTime creationDate { get; set; }
-
-     public DateTime estimatadeFinishDate { get; set; }
-
-     public DateTime startDate { get; set; }
-
-     public DateTime doneDate { get; set; }
+    [ForeignKey("UserId")]
+    public virtual User User { get; set; }
   }
 }

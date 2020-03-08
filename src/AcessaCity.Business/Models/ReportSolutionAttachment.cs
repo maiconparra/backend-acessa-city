@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -7,11 +6,11 @@ namespace AcessaCity.Business.Models
 {
   public class ReportSolutionAttachment: Entity
   {
-     public Guid? reportSolutionId { get; set; }
-     [ForeignKey("reportSolutionId")]
+    public Guid ReportSolutionId { get; set; }
+    public string MediaType { get; set; }
+    public string Url { get; set; }
 
-     public string meidaType { get; set; }
-
-     public string url { get; set; }
+    [ForeignKey("ReportSolutionId")]
+    public virtual ReportSolution ReportSolution { get; set; }
   }
 }

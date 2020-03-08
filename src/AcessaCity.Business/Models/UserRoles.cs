@@ -7,11 +7,14 @@ namespace AcessaCity.Business.Models
 {
   public class UserRoles: Entity
   {
-     public Guid? userId { get; set; }
-     [ForeignKey("userId")]
+    public Guid UserId { get; set; }
+    public Guid RoleId { get; set; }
 
-     public Guid? rolesId { get; set; }
-     [ForeignKey("rolesId")]
+    [ForeignKey("UserId")]
+    public virtual User User { get; set; }
+
+    [ForeignKey("RoleId")]
+    public virtual Role Role { get; set; }
     
   }
 }

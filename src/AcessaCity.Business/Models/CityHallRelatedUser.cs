@@ -1,17 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-
-
 
 namespace AcessaCity.Business.Models
 {
    public class CityHallRelatedUser: Entity
    {
-      public Guid? userId { get; set; }
-      [ForeignKey("userId")]
+      public Guid UserId { get; set; }
+      public Guid CityHallId { get; set; }
 
-      public Guid? cityHallId { get; set; }
-      [ForeignKey("cityHallId")]
+      [ForeignKey("UserId")]
+      public virtual User RelatedUser { get; set; }
+
+      [ForeignKey("CityHallId")]
+      public CityHall RelatedCityHall { get; set; }
    }
 }

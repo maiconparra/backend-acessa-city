@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-
-
 namespace AcessaCity.Business.Models
 {
-   public class ReportSatus: Entity
-   {
-     public string description { get; set; }
+  public class ReportStatus: Entity
+  {
+    public string Description { get; set; }
 
-     public Boolean denied { get; set; }
+    public bool Denied { get; set; }
 
-     public Boolean approved { get; set; }
+    public bool Approved { get; set; }
 
-     public Boolean review { get; set; }
+    public bool Review { get; set; }
 
-     public Boolean inProgress { get; set; }
-   }
+    public bool InProgress { get; set; }
+  }
 }

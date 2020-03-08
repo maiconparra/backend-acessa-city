@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -7,12 +6,14 @@ namespace AcessaCity.Business.Models
 {
   public class ReportClassification: Entity
   {
-     public string reportId { get; set; }
-     [ForeignKey("reportId")]
+    public Guid ReportId { get; set; }
+    public Guid UserId { get; set; }
+    public int Rating { get; set; }
 
-     public string userId { get; set; }
-     [ForeignKey("userId")]
-
-     public int rating { get; set; }
+    [ForeignKey("ReportId")]
+    public virtual Report Report { get; set; }
+    
+    [ForeignKey("UserId")]
+    public virtual User User { get; set; }
   }
 }
