@@ -30,17 +30,13 @@ namespace AcessaCity.API.Controllers
             {
                 return Ok
                 (
-                    new {
-                        success = true,
-                        data = result
-                    }
+                    result
                 );
             }
-
+ 
             return BadRequest
             (
                 new {
-                    success = false,
                     errors = _notifier.GetNotifications().Select(n => n.Message)
                 }
             );

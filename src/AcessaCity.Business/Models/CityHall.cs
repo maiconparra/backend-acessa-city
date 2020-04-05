@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcessaCity.Business.Models
@@ -16,5 +17,7 @@ namespace AcessaCity.Business.Models
 
         [ForeignKey("CityId")]
         public virtual City City { get; set; }
+
+        public virtual IEnumerable<CityHallRelatedUser> RelatedUsers { get; set; }
     }
 }

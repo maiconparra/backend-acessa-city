@@ -8,6 +8,7 @@ using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
 using AcessaCity.Business.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcessaCity.API.V1.Controllers
@@ -35,6 +36,7 @@ namespace AcessaCity.API.V1.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<CategoryDto>> Get()
         {
             return _mapper.Map<IEnumerable<CategoryDto>>(await _repository.GetAll());        

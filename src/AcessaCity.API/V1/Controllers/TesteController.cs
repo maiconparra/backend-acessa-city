@@ -24,7 +24,7 @@ namespace AcessaCity.API.V1.Controllers
 
         [HttpGet]
         [Authorize]
-        [ClaimsAuthorize("admin", "true")]
+        // [ClaimsAuthorize("admin", "true")]
         public async Task<ActionResult> Get()
         {
             // var pagedEnumerable = FirebaseAuth.DefaultInstance.ListUsersAsync(null);

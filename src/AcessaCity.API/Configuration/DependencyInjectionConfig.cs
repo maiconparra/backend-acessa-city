@@ -31,6 +31,9 @@ namespace AcessaCity.API.Configuration
             services.AddScoped<IStateRepository, StateRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICityHallRepository, CityHallRepository>();
+            services.AddScoped<ICityHallService, CityHallService>();
+            services.AddScoped<ICityHallRelatedUserRepository, CityHallRelatedUserRepository>();
             services.AddScoped<INotifier, Notifier>();
 
             return services;

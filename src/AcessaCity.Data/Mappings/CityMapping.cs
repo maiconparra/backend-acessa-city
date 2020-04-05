@@ -27,11 +27,13 @@ namespace AcessaCity.Data.Mappings
                 .WithMany(s => s.Cities)
                 .IsRequired();   
 
+
+
             builder.HasData
             (
-                new City
+                new City 
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("7ae590f1-c6a4-4bb3-91bf-1e82ea45bb4b"),
                     Name = "Campinas",
                     IBGECode = 3509502,
                     StateId = Guid.Parse("b545ceb9-fbde-43c9-bbcc-de62a49e1661"),

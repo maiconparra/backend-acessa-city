@@ -31,10 +31,11 @@ namespace AcessaCity.API.Configuration
 
             services.AddCors(options =>
             {
-                options.AddPolicy("Development",
+                options.AddPolicy("*",
                     builder =>
                         builder
-                        .AllowAnyOrigin()
+                        // .WithOrigins("*")
+                        // .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());

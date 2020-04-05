@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AcessaCity.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200229035136_StateCityAndCityHallTable")]
-    partial class StateCityAndCityHallTable
+    [Migration("20200405192528_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,10 +48,10 @@ namespace AcessaCity.Data.Migrations
                     b.Property<int>("IBGECode")
                         .HasColumnType("int");
 
-                    b.Property<double>("Latitude")
+                    b.Property<decimal>("Latitude")
                         .HasColumnType("decimal(11, 8)");
 
-                    b.Property<double>("Longitude")
+                    b.Property<decimal>("Longitude")
                         .HasColumnType("decimal(11, 8)");
 
                     b.Property<string>("Name")
@@ -71,10 +71,10 @@ namespace AcessaCity.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d4ef1e5f-0cb2-4ac6-b64e-65366a55d897"),
+                            Id = new Guid("7ae590f1-c6a4-4bb3-91bf-1e82ea45bb4b"),
                             IBGECode = 3509502,
-                            Latitude = -22.892056499999999,
-                            Longitude = -47.207979399999999,
+                            Latitude = -22.8920565m,
+                            Longitude = -47.2079794m,
                             Name = "Campinas",
                             StateId = new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661")
                         });
@@ -87,34 +87,59 @@ namespace AcessaCity.Data.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Address")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("CNPJ")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(14)");
 
                     b.Property<Guid>("CityId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Neighborhood")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(120)");
 
                     b.Property<string>("Number")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(45)");
 
                     b.Property<bool>("Verified")
-                        .HasColumnType("tinyint(1)");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("ZIPCode")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(45)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
 
                     b.ToTable("CityHalls");
+                });
+
+            modelBuilder.Entity("AcessaCity.Business.Models.CityHallRelatedUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CityHallId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityHallId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CityHallRelatedUser");
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.State", b =>
@@ -152,6 +177,37 @@ namespace AcessaCity.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AcessaCity.Business.Models.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("FirebaseUserId")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("varchar(45) CHARACTER SET utf8mb4")
+                        .HasMaxLength(45);
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ProfileUrl")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("AcessaCity.Business.Models.Category", b =>
                 {
                     b.HasOne("AcessaCity.Business.Models.Category", "ParentCategory")
@@ -173,6 +229,21 @@ namespace AcessaCity.Data.Migrations
                     b.HasOne("AcessaCity.Business.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AcessaCity.Business.Models.CityHallRelatedUser", b =>
+                {
+                    b.HasOne("AcessaCity.Business.Models.CityHall", "CityHall")
+                        .WithMany("RelatedUsers")
+                        .HasForeignKey("CityHallId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.User", "User")
+                        .WithMany("RelatedCityHalls")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

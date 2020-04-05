@@ -2,6 +2,7 @@ using System.Linq;
 using AcessaCity.Business.Models;
 using AcessaCity.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace AcessaCity.Data.Context
 {
@@ -12,8 +13,14 @@ namespace AcessaCity.Data.Context
         public DbSet<City> Cities { get; set; }
         public DbSet<CityHall> CityHalls { get; set; }
         public DbSet<User> Users { get; set; }
-
+        public DbSet<CityHallRelatedUser> CityHallRelatedUser { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // optionsBuilder
+            //     .ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.DetachedLazyLoadingWarning));
+        }        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +28,8 @@ namespace AcessaCity.Data.Context
             modelBuilder.ApplyConfiguration(new StateMapping());
             modelBuilder.ApplyConfiguration(new CityMapping());
             modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new CityHallMapping());
+            modelBuilder.ApplyConfiguration(new CityHallRelatedUserMapping());
 
             base.OnModelCreating(modelBuilder);
         }        
