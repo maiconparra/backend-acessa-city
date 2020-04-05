@@ -2,7 +2,6 @@ using System.Linq;
 using AcessaCity.Business.Models;
 using AcessaCity.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace AcessaCity.Data.Context
 {
@@ -14,6 +13,7 @@ namespace AcessaCity.Data.Context
         public DbSet<CityHall> CityHalls { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<CityHallRelatedUser> CityHallRelatedUser { get; set; }
+        public DbSet<ReportStatus> ReportStatus { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,6 +30,7 @@ namespace AcessaCity.Data.Context
             modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new CityHallMapping());
             modelBuilder.ApplyConfiguration(new CityHallRelatedUserMapping());
+            modelBuilder.ApplyConfiguration(new ReportStatusMapping());
 
             base.OnModelCreating(modelBuilder);
         }        
