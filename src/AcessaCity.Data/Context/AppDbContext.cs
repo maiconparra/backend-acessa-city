@@ -14,6 +14,7 @@ namespace AcessaCity.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<CityHallRelatedUser> CityHallRelatedUser { get; set; }
         public DbSet<ReportStatus> ReportStatus { get; set; }
+        public DbSet<ReportClassification> ReportClassifications { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
