@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AcessaCity.API.V1.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/report-status")]    
+    [Route("api/v{version:apiVersion}/report-status")]
     public class ReportStatusController : MainController
     {
         private readonly IReportStatusRepository _repository;

@@ -37,6 +37,9 @@ namespace AcessaCity.API.Configuration
             services.AddScoped<IReportStatusRepository, ReportStatusRepository>();
             services.AddScoped<IReportClassificationRepository, ReportClassificationRepository>();
             services.AddScoped<IReportClassificationService, ReportClassificationService>();
+            services.AddScoped<IUrgencyLevelRepository, UrgencyLevelRepository>();
+            services.AddScoped<IReportService, ReportService>();
+            services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<INotifier, Notifier>();
 
             return services;
