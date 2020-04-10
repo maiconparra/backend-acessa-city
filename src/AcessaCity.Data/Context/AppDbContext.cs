@@ -15,6 +15,7 @@ namespace AcessaCity.Data.Context
         public DbSet<CityHallRelatedUser> CityHallRelatedUser { get; set; }
         public DbSet<ReportStatus> ReportStatus { get; set; }
         public DbSet<ReportClassification> ReportClassifications { get; set; }
+        public DbSet<UrgencyLevel> UrgencyLevels { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,6 +33,8 @@ namespace AcessaCity.Data.Context
             modelBuilder.ApplyConfiguration(new CityHallMapping());
             modelBuilder.ApplyConfiguration(new CityHallRelatedUserMapping());
             modelBuilder.ApplyConfiguration(new ReportStatusMapping());
+            modelBuilder.ApplyConfiguration(new UrgencyLevelMapping());
+            modelBuilder.ApplyConfiguration(new ReportMapping());
 
             base.OnModelCreating(modelBuilder);
         }        

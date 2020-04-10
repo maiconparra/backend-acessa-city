@@ -3,14 +3,16 @@ using System;
 using AcessaCity.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AcessaCity.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200408022526_AddUrgencyLevelTable")]
+    partial class AddUrgencyLevelTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,9 +149,7 @@ namespace AcessaCity.Data.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("Accuracy")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("char(36)");
@@ -161,22 +161,16 @@ namespace AcessaCity.Data.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<decimal>("Latitude")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<decimal>("Longitude")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(10,9)")
-                        .HasDefaultValue(0m);
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<Guid>("ReportStatusId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4")
-                        .HasMaxLength(200);
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<Guid>("UrgencyLevelId")
                         .HasColumnType("char(36)");

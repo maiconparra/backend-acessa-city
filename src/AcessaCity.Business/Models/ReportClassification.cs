@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcessaCity.Business.Models
 {
-  public class ReportClassification: Entity
+  public class ReportClassification : Entity
   {
     public Guid ReportId { get; set; }
     public Guid UserId { get; set; }
