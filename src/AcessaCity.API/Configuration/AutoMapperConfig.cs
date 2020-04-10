@@ -1,6 +1,7 @@
 using AcessaCity.API.Dtos;
 using AcessaCity.API.Dtos.CityHall;
 using AcessaCity.API.Dtos.Report;
+using AcessaCity.API.Dtos.ReportCommentary;
 using AcessaCity.API.Dtos.ReportStatus;
 using AcessaCity.Business.Models;
 using AutoMapper;
@@ -17,6 +18,8 @@ namespace AcessaCity.API.Configuration
             CreateMap<CityHall, CityHallDto>();
             CreateMap<ReportStatus, ReportStatusDto>();
             CreateMap<Report, ReportInsertDto>().ReverseMap();
+
+            CreateMap<ReportCommentary, ReportCommentaryInsertDto>().ReverseMap();
         }
     }
 }
