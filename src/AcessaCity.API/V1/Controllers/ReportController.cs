@@ -10,6 +10,7 @@ using AcessaCity.Business.Interfaces.Service;
 using AcessaCity.Business.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AcessaCity.API.V1.Controllers
 {
@@ -47,11 +48,26 @@ namespace AcessaCity.API.V1.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery]Guid category, [FromQuery]DateTime date)
         {
-            var list = await _repository.GetAll();
-            
-            return Ok(list);
+            var reportList = await _repository.Find(r =>
+                (r.CategoryId == category || category == Guid.Empty)
+                &&
+                ((r.CreationDate.DayOfYear == date.DayOfYear) || date.DayOfYear == DateTime.MinValue.DayOfYear)
+            );
+
+            return CustomResponse(reportList);            
+        }
+
+        [HttpGet("{id:guid}/{date:datetime}")]
+        public async Task<ActionResult> Get([FromQuery]Guid? category, [FromQuery]DateTime date)
+        {
+            var reportList = await _repository.Find(r =>
+                (r.CategoryId == category || category == Guid.Empty) &
+                (r.CreationDate.DayOfYear == date.DayOfYear || date == null) 
+            );
+
+            return CustomResponse(reportList.ToList());
         }
 
         [HttpPost]
