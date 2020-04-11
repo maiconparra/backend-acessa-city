@@ -43,6 +43,12 @@ namespace AcessaCity.API.Configuration
             services.AddScoped<IReportCommentaryRepository, ReportCommentaryRepository>();
             services.AddScoped<IReportCommentaryService, ReportCommentaryService>();        
             services.AddScoped<IReportAttachmentRepository, ReportAttachmentRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+
+            //external services
+            services.AddScoped<IGeolocationService, GeolocationService>();
+
+
             services.AddScoped<INotifier, Notifier>();
 
             return services;

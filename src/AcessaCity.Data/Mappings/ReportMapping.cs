@@ -15,17 +15,17 @@ namespace AcessaCity.Data.Mappings
                 .IsRequired(true);
             
             builder.Property(r => r.Latitude)
-                .HasColumnType("decimal(10,9)")
+                .HasColumnType("decimal(10,8)")
                 .IsRequired(true)
                 .HasDefaultValue(0.0);
 
             builder.Property(r => r.Longitude)
-                .HasColumnType("decimal(10,9)")
+                .HasColumnType("decimal(10,8)")
                 .IsRequired(true)
                 .HasDefaultValue(0.0);
 
             builder.Property(r => r.Accuracy)
-                .HasColumnType("decimal(10,9)")
+                .HasColumnType("decimal(10,8)")
                 .IsRequired(true)
                 .HasDefaultValue(0.0);                          
         }

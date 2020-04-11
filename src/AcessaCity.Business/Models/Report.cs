@@ -9,6 +9,7 @@ namespace AcessaCity.Business.Models
         public Guid CategoryId { get; set; }
         public Guid UrgencyLevelId { get; set; }
         public Guid ReportStatusId { get; set; }
+        public Guid CityId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Latitude { get; set; }
@@ -27,5 +28,8 @@ namespace AcessaCity.Business.Models
 
         [ForeignKey("ReportStatusId")]
         public virtual ReportStatus ReportStatus { get; set; }
+
+        [ForeignKey("CityId")]
+        public virtual City City { get; set; }        
     }
 }

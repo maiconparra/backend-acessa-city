@@ -25,6 +25,7 @@ namespace AcessaCity.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();                        
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"))
@@ -45,8 +46,8 @@ namespace AcessaCity.API
                         ValidateLifetime = true
                     };
                 });
-            services.AddAutoMapper(typeof(Startup));
-            services.ResolveDependencies();
+            services.AddAutoMapper(typeof(Startup));                        
+            services.ResolveDependencies();            
             //services.AddCors();
             services.WebAPIConfig();            
         }

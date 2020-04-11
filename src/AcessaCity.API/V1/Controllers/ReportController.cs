@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
 using AcessaCity.API.Dtos.Report;
@@ -18,16 +20,22 @@ namespace AcessaCity.API.V1.Controllers
         private readonly IReportService _service;
         private readonly IReportRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IGeolocationService _geolocation;
+        private readonly ICityRepository _cityRepository;
         
         public ReportController(
             INotifier notifier,
             IReportRepository repository,
             IReportService service,
-            IMapper mapper) : base(notifier)
+            IMapper mapper,
+            IGeolocationService geolocation,
+            ICityRepository cityRepository) : base(notifier)
         {
             _service = service;
             _repository = repository;
             _mapper = mapper;
+            _geolocation = geolocation;
+            _cityRepository = cityRepository;
         }
 
         [HttpGet("{id:guid}")]
@@ -52,6 +60,28 @@ namespace AcessaCity.API.V1.Controllers
             Report newReport = _mapper.Map<Report>(report);
             newReport.CreationDate = DateTime.Now;
 
+            var city = await _geolocation.GetCityInfoFromLocation(
+                report.Latitude,
+                report.Longitude
+            );
+
+            IEnumerable<City> cities = new List<City>();
+
+            if (city != null)
+            {
+                cities = await _cityRepository.Find(
+                    c => c.Name.ToLower().Contains(city.Name.ToLower())
+                ); 
+            }
+
+            var cityFromRepo = cities.FirstOrDefault();
+            if (cityFromRepo == null)
+            {
+                NotifyError("As coordenadas informadas não estão cadastradas.");
+                return CustomResponse();
+            }
+
+            newReport.CityId = cityFromRepo.Id;
             await _service.Add(newReport);
 
             if (ValidOperation())
