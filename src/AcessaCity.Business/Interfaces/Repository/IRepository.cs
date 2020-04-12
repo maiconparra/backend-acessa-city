@@ -13,6 +13,7 @@ namespace AcessaCity.Business.Interfaces.Repository
         Task<List<TEntity>> GetAll();
         Task Update(TEntity entity);
         Task Remove(Guid id);
+        Task Remove(TEntity entity);
         Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
         Task<int> SaveChanges();
     }

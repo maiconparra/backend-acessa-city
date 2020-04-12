@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
+using AcessaCity.API.Dtos.User;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
+using AcessaCity.Business.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcessaCity.API.V1.Controllers
@@ -18,6 +20,17 @@ namespace AcessaCity.API.V1.Controllers
             IUserRepository repository) : base(notifier)
         {
             _repository = repository;
+        }
+
+        [HttpPut("{userId:guid}/update-role")]
+        public async Task<ActionResult> UdpdateUserRole(
+            Guid userId, 
+            UpdateUserRoleDto role,
+            [FromServices] IUserRoleService roleService)
+        {
+            await roleService.UpdateUserRole(role.Role, userId, role.Allow);
+
+            return CustomResponse();
         }
 
         [HttpGet("{userId:guid}/coordinators")]

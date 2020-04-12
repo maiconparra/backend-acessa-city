@@ -54,6 +54,11 @@ namespace AcessaCity.Data.Repository
             await SaveChanges();
         }
 
+        public async Task Remove(TEntity entity)
+        {
+            DbSet.Remove(entity);
+            await SaveChanges();
+        }
 
         public async Task<int> SaveChanges()
         {
