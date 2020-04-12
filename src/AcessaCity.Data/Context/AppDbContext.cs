@@ -18,6 +18,7 @@ namespace AcessaCity.Data.Context
         public DbSet<UrgencyLevel> UrgencyLevels { get; set; }
         public DbSet<ReportCommentary> ReportComments { get; set; }
         public DbSet<ReportAttachment> ReportAttachments { get; set; }
+        public DbSet<InteractionHistory> InteractionHistories { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,6 +40,7 @@ namespace AcessaCity.Data.Context
             modelBuilder.ApplyConfiguration(new ReportMapping());
             modelBuilder.ApplyConfiguration(new ReportCommentaryMapping());
             modelBuilder.ApplyConfiguration(new ReportAttachmentMapping());
+            modelBuilder.ApplyConfiguration(new InteractionHistoryMapping());
 
             base.OnModelCreating(modelBuilder);
         }        

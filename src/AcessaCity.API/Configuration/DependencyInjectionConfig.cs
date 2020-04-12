@@ -1,3 +1,4 @@
+using AcessaCity.Business.App.Reports;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
@@ -44,6 +45,11 @@ namespace AcessaCity.API.Configuration
             services.AddScoped<IReportCommentaryService, ReportCommentaryService>();        
             services.AddScoped<IReportAttachmentRepository, ReportAttachmentRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IReportInteractionHistoryRepository, ReportInteractionHistoryRepository>();
+            services.AddScoped<IReportInteractionHistoryService, ReportInteractionHistoryService>();
+
+            //business logic class
+            services.AddScoped<ReportStatusUpdate, ReportStatusUpdate>();
 
             //external services
             services.AddScoped<IGeolocationService, GeolocationService>();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
 using AcessaCity.API.Dtos.Report;
+using AcessaCity.Business.App.Reports;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
@@ -71,7 +72,10 @@ namespace AcessaCity.API.V1.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(ReportInsertDto report)
+        public async Task<ActionResult> Post(
+            ReportInsertDto report,
+            [FromServices] ReportStatusUpdate statusUpdater          
+            )
         {
             Report newReport = _mapper.Map<Report>(report);
             newReport.CreationDate = DateTime.Now;
@@ -103,10 +107,28 @@ namespace AcessaCity.API.V1.Controllers
             if (ValidOperation())
             {
                 var created = await _repository.GetById(newReport.Id);
+
+                await statusUpdater.StatusUpdate(
+                    newReport.UserId,
+                    newReport.Id,
+                    newReport.ReportStatusId,
+                    "Denúncia criada"
+                );
+
                 return CreatedAtAction(nameof(GetById), new {Id = newReport.Id, Version = "1.0"}, created);                
             }
 
             return CustomResponse();
+        }
+
+        [HttpPost("{reportId:guid}/status-update")]
+        public async Task<ActionResult> StatusUpdate(
+            Guid reportId, 
+            ReportStatusUpdateDto status,
+            [FromServices]ReportStatusUpdate updater)
+        {
+            await updater.StatusUpdate(status.UserId, reportId, status.ReportStatusId, status.Description);
+            return Ok();
         }
     }
 }
