@@ -13,6 +13,6 @@ namespace AcessaCity.Business.Interfaces.Service
         Task<User> FindById(Guid Id);
 
         Task<User> FindUserByFirebaseId(string firebaseUserId);
-        Task UpdateUserClaims(User user, Dictionary<string, object> claims);         
+        Task UpdateUserClaims(string firebaseUserId, Dictionary<string, object> claims);         
     }
 }

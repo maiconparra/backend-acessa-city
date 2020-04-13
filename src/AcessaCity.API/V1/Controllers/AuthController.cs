@@ -48,9 +48,10 @@ namespace AcessaCity.API.V1.Controllers
             var claims = new Dictionary<string, object>()
             {
                 { "app_user_id", newUser.Id },
+                { "user", true }
             };       
 
-            await _service.UpdateUserClaims(newUser, claims);
+            await _service.UpdateUserClaims(this.CurrentUser().Uid, claims);
             this.RefreshCurrentUser();
 
             return Ok(
