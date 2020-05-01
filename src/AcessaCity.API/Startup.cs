@@ -80,7 +80,7 @@ namespace AcessaCity.API
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AcessaCity V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Acessa City V1");
             });            
             app.UseEndpoints(endpoints =>
             {
