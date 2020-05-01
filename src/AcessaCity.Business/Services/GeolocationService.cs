@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace AcessaCity.Business.Services
 
         public async Task<CityResultFromGeolocation> GetCityInfoFromLocation(double latitude, double longitude)
         {
-            var url = String.Format(GET_INFO_API, latitude, longitude);
+            var url = String.Format(GET_INFO_API, latitude.ToString("G", CultureInfo.InvariantCulture), longitude.ToString("G", CultureInfo.InvariantCulture));
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
 
