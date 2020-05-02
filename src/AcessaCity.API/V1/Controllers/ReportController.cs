@@ -52,12 +52,15 @@ namespace AcessaCity.API.V1.Controllers
         public async Task<ActionResult> Get(
             [FromQuery]Guid category, 
             [FromQuery]DateTime date,
-            [FromQuery]Guid status)
+            [FromQuery]Guid status,
+            [FromQuery]Guid city)
         {
             var reportList = await _repository.Find(r =>
                 (r.CategoryId == category || category == Guid.Empty)
                 &&
                 (r.ReportStatusId == status || status == Guid.Empty)
+                &&
+                (r.CityId == city || city == Guid.Empty)
                 &&
                 ((r.CreationDate.DayOfYear == date.DayOfYear) || date.DayOfYear == DateTime.MinValue.DayOfYear)
             );
