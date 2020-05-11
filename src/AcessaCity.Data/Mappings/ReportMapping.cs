@@ -13,6 +13,14 @@ namespace AcessaCity.Data.Mappings
             builder.Property(r => r.Title)
                 .HasMaxLength(200)
                 .IsRequired(true);
+
+            builder.Property(r => r.Street)
+                .HasMaxLength(250)
+                .IsRequired(false);
+
+            builder.Property(r => r.Neighborhood)
+                .HasMaxLength(250)
+                .IsRequired(false);
             
             builder.Property(r => r.Latitude)
                 .HasColumnType("decimal(10,8)")

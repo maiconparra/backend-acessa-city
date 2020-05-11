@@ -14,10 +14,31 @@ namespace AcessaCity.Business.Services
     {
         private readonly IHttpClientFactory _clientFactory;
         const string GET_INFO_API = "http://open.mapquestapi.com/geocoding/v1/reverse?key=OtF9PTNB3McLyRVr2egT0mYbCf9HrqtW&location={0},{1}";
+        const string GET_VIACEP_API = "https://viacep.com.br/ws/{0}/json/";
 
         public GeolocationService(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
+        }
+
+        public async Task<VIACEPResult> GetVIACEPInfo(string cep)
+        {
+            var url = String.Format(GET_VIACEP_API, cep);
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            var client = _clientFactory.CreateClient();            
+            var response = await client.GetAsync(url);
+
+            VIACEPResult apiResult = null;
+
+            if (response.IsSuccessStatusCode)
+            {
+                apiResult = JsonConvert.DeserializeObject<VIACEPResult>(await response.Content.ReadAsStringAsync());
+
+                return apiResult;
+            }
+
+            return null;
         }
 
         public async Task<CityResultFromGeolocation> GetCityInfoFromLocation(double latitude, double longitude)
@@ -36,12 +57,19 @@ namespace AcessaCity.Business.Services
                 apiReturn = JsonConvert.DeserializeObject<MapQuestApiReverseResult>(await response.Content.ReadAsStringAsync());
 
                 if (apiReturn.Results[0].Locations.Count() > 0)
-                {
+                {                    
+                    VIACEPResult viaCep = await this.GetVIACEPInfo(apiReturn.Results[0].Locations[0].PostalCode);
+                    if (viaCep == null)
+                    {
+                        return null;
+                    }
                     return new CityResultFromGeolocation()
                     {
                         Name = apiReturn.Results[0].Locations[0].AdminArea5,
                         StateName = apiReturn.Results[0].Locations[0].AdminArea3,
-                        ZIPCode = apiReturn.Results[0].Locations[0].PostalCode
+                        ZIPCode = apiReturn.Results[0].Locations[0].PostalCode,
+                        Street = viaCep.Logradouro,
+                        Neighborhood = viaCep.Bairro
                     };
                 }
             }

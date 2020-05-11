@@ -110,6 +110,8 @@ namespace AcessaCity.API.V1.Controllers
             }
 
             newReport.CityId = cityFromRepo.Id;
+            newReport.Street = city.Street;
+            newReport.Neighborhood = city.Neighborhood;
             await _service.Add(newReport);
 
             if (ValidOperation())
