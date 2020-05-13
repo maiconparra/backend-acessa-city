@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcessaCity.Business.Models
@@ -32,6 +33,8 @@ namespace AcessaCity.Business.Models
         public virtual ReportStatus ReportStatus { get; set; }
 
         [ForeignKey("CityId")]
-        public virtual City City { get; set; }        
+        public virtual City City { get; set; }
+
+        public virtual IEnumerable<ReportAttachment> Attachments { get; set; }
     }
 }
