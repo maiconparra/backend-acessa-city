@@ -146,5 +146,15 @@ namespace AcessaCity.API.V1.Controllers
             await updater.StatusUpdate(status.UserId, reportId, status.ReportStatusId, status.Description);
             return Ok();
         }
+
+        [HttpPost("{reportId:guid}/coordinator-update")]
+        public async Task<ActionResult> CoordinatorUpdate(
+            Guid reportId, 
+            ReportCoordinatorUpdateDto coordinator,
+            [FromServices]ReportCoordinatorUpdate updater)
+        {
+            await updater.CoordinatorUpdate(reportId, coordinator.CoordinatorId);            
+            return Ok();
+        }
     }
 }

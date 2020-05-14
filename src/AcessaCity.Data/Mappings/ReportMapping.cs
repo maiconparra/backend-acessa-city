@@ -35,7 +35,9 @@ namespace AcessaCity.Data.Mappings
             builder.Property(r => r.Accuracy)
                 .HasColumnType("decimal(10,8)")
                 .IsRequired(true)
-                .HasDefaultValue(0.0);                          
+                .HasDefaultValue(0.0);         
+
+            // builder.HasOne(r => r.Coordinator);
         }
     }
 }

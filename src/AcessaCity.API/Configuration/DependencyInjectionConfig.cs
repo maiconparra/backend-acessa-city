@@ -53,6 +53,7 @@ namespace AcessaCity.API.Configuration
 
             //business logic class
             services.AddScoped<ReportStatusUpdate, ReportStatusUpdate>();
+            services.AddScoped<ReportCoordinatorUpdate, ReportCoordinatorUpdate>();
 
             //external services
             services.AddScoped<IGeolocationService, GeolocationService>();

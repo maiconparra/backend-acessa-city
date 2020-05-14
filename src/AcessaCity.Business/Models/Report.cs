@@ -19,9 +19,13 @@ namespace AcessaCity.Business.Models
         public decimal Longitude { get; set; }
         public decimal Accuracy { get; set; }
         public DateTime CreationDate { get; set; }
+        public Guid? CoordinatorId { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
+
+        [ForeignKey("CoordinatorId")]
+        public virtual User Coordinator { get; set; }
 
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
