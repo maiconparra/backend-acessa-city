@@ -38,9 +38,9 @@ namespace AcessaCity.Business.Services
             return await _repository.GetById(id);
         }
 
-        public Task<IEnumerable<ReportCommentary>> GetCommentsByReportId(Guid ReportId)
+        public async Task<IEnumerable<ReportCommentary>> GetCommentsByReportId(Guid ReportId)
         {
-            throw new NotImplementedException();
+            return await _repository.Find(c => c.ReportId == ReportId);
         }
 
         public Task Remove(ReportCommentary commentary)

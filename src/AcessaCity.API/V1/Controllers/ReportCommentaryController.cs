@@ -34,6 +34,12 @@ namespace AcessaCity.API.V1.Controllers
             return CustomResponse(await _service.GetById(id));
         }
 
+        [HttpGet("/api/v{version:apiVersion}/report-commentary/report/{reportId:guid}")]
+        public async Task<ActionResult> GetCommentaries(Guid reportId)
+        {               
+            return Ok(await _service.GetCommentsByReportId(reportId));
+        }        
+
         [HttpPost]
         public async Task<ActionResult> Add(ReportCommentaryInsertDto commentary)
         {
