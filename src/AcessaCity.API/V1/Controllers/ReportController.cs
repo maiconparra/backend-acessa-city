@@ -55,13 +55,16 @@ namespace AcessaCity.API.V1.Controllers
             [FromQuery]Guid status,
             [FromQuery]Guid city,
             [FromQuery]string street,
-            [FromQuery]string neighborhood)
+            [FromQuery]string neighborhood,
+            [FromQuery]Guid coordinatorId)
         {
             var reportList = await _repository.Find(r =>
                 (r.CategoryId == category || category == Guid.Empty)
                 &&
                 (r.ReportStatusId == status || status == Guid.Empty)
                 &&
+                (r.CoordinatorId == coordinatorId || coordinatorId == Guid.Empty)
+                &&                
                 (r.CityId == city || city == Guid.Empty)
                 &&
                 (r.Street.ToLower().Contains(street) || street == null)
