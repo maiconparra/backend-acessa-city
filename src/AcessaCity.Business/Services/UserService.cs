@@ -51,7 +51,10 @@ namespace AcessaCity.Business.Services
         public async Task UpdateUserClaims(string firebaseUserId, Dictionary<string, object> claims)
         {
             var user = await this.FindUserByFirebaseId(firebaseUserId);
-            claims.Add("app_user_id", user.Id);
+            if (!claims.ContainsKey("app_user_id"))
+            {
+                claims.Add("app_user_id", user.Id);
+            }            
             await _firebaseAuth.SetCustomUserClaimsAsync(firebaseUserId, claims);            
         }
     }

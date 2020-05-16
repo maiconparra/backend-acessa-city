@@ -35,10 +35,11 @@ namespace AcessaCity.API.Configuration
                     builder =>
                         builder
                         // .WithOrigins("*")
-                        // .AllowAnyOrigin()
+                        .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .AllowCredentials());
+                        // .AllowCredentials()
+                        );
 
 
                 // options.AddPolicy("Production",
