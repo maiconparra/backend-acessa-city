@@ -7,5 +7,7 @@ namespace AcessaCity.Business.Dto.City.User
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string DisplayName { get; set; }
+        public string PhotoUrl { get; set; }
+        public bool Disabled { get; set; }
     }
 }

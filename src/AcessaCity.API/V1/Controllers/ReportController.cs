@@ -58,6 +58,8 @@ namespace AcessaCity.API.V1.Controllers
             [FromQuery]string neighborhood,
             [FromQuery]Guid coordinatorId)
         {
+            var fStreet = street == null ? "" : street.ToLower();
+            var fNeighborhood = neighborhood == null ? "" : neighborhood.ToLower();
             var reportList = await _repository.Find(r =>
                 (r.CategoryId == category || category == Guid.Empty)
                 &&
@@ -67,9 +69,9 @@ namespace AcessaCity.API.V1.Controllers
                 &&                
                 (r.CityId == city || city == Guid.Empty)
                 &&
-                (r.Street.ToLower().Contains(street.ToLower()) || street == null)
+                (r.Street.ToLower().Contains(fStreet.ToLower()) || street == null)
                 &&
-                (r.Neighborhood.ToLower().Contains(neighborhood.ToLower()) || neighborhood == null)                
+                (r.Neighborhood.ToLower().Contains(fNeighborhood.ToLower()) || neighborhood == null)                
                 &&
                 ((r.CreationDate.DayOfYear == date.DayOfYear) || date.DayOfYear == DateTime.MinValue.DayOfYear)
             );
