@@ -26,6 +26,11 @@ namespace AcessaCity.Business.Services
             await _repo.Add(user);
         }
 
+        public Task<bool> AddFirebaseUser()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             _repo?.Dispose();

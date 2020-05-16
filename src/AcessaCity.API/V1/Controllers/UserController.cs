@@ -22,6 +22,12 @@ namespace AcessaCity.API.V1.Controllers
             _repository = repository;
         }
 
+        [HttpPost]
+        public async Task<ActionResult> Post()
+        {
+            return Ok();
+        }
+
         [HttpPut("{userId:guid}/update-role")]
         public async Task<ActionResult> UdpdateUserRole(
             Guid userId, 

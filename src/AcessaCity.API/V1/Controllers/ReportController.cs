@@ -67,9 +67,9 @@ namespace AcessaCity.API.V1.Controllers
                 &&                
                 (r.CityId == city || city == Guid.Empty)
                 &&
-                (r.Street.ToLower().Contains(street) || street == null)
+                (r.Street.ToLower().Contains(street.ToLower()) || street == null)
                 &&
-                (r.Neighborhood.ToLower().Contains(neighborhood) || neighborhood == null)                
+                (r.Neighborhood.ToLower().Contains(neighborhood.ToLower()) || neighborhood == null)                
                 &&
                 ((r.CreationDate.DayOfYear == date.DayOfYear) || date.DayOfYear == DateTime.MinValue.DayOfYear)
             );
