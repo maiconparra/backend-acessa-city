@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AcessaCity.Business.Dto.City.User;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
@@ -26,9 +27,35 @@ namespace AcessaCity.Business.Services
             await _repo.Add(user);
         }
 
-        public Task<bool> AddFirebaseUser()
+        public async Task<bool> AddFirebaseUser(UserCreateDto user)
         {
-            throw new NotImplementedException();
+            string userExists = null;
+            try {
+                await FirebaseAuth.DefaultInstance.GetUserByEmailAsync(user.Email);
+            } catch (FirebaseAuthException ex) {
+                userExists = ex.Message;
+            }                
+
+                if (userExists == null) 
+                {
+                    Notify($"O usuário {user.Email} já existe");  
+                    return false;
+                }          
+
+            UserRecordArgs args = new UserRecordArgs()
+            {
+                Email = user.Email,
+                EmailVerified = user.EmailVerified,
+                PhoneNumber = user.PhoneNumber,
+                Password = user.Password,
+                DisplayName = user.DisplayName,
+                PhotoUrl = user.PhotoUrl,
+                Disabled = false,
+            };            
+
+            await FirebaseAuth.DefaultInstance.CreateUserAsync(args);
+
+            return FirebaseAuth.DefaultInstance.GetUserByEmailAsync(args.Email) != null;
         }
 
         public void Dispose()

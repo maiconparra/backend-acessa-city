@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
 using AcessaCity.API.Dtos.User;
+using AcessaCity.Business.Dto.City.User;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
@@ -14,18 +15,22 @@ namespace AcessaCity.API.V1.Controllers
     public class UserController : MainController
     {
         private readonly IUserRepository _repository;
+        private readonly IUserService _service;
 
         public UserController(
             INotifier notifier,
-            IUserRepository repository) : base(notifier)
+            IUserRepository repository,
+            IUserService service) : base(notifier)
         {
             _repository = repository;
+            _service = service;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post()
+        public async Task<ActionResult> Post(UserCreateDto user)
         {
-            return Ok();
+            await _service.AddFirebaseUser(user);
+            return CustomResponse();
         }
 
         [HttpPut("{userId:guid}/update-role")]

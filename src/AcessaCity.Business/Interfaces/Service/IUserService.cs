@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AcessaCity.Business.Dto.City.User;
 using AcessaCity.Business.Models;
 
 namespace AcessaCity.Business.Interfaces.Service
@@ -13,7 +14,7 @@ namespace AcessaCity.Business.Interfaces.Service
         Task<User> FindById(Guid Id);
 
         Task<User> FindUserByFirebaseId(string firebaseUserId);
-        Task<bool> AddFirebaseUser();
+        Task<bool> AddFirebaseUser(UserCreateDto user);
         Task UpdateUserClaims(string firebaseUserId, Dictionary<string, object> claims);         
     }
 }
