@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AcessaCity.Business.Dto.City.User;
+using AcessaCity.Business.Dto.User;
 using AcessaCity.Business.Models;
 
 namespace AcessaCity.Business.Interfaces.Service

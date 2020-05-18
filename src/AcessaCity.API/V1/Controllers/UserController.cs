@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
 using AcessaCity.API.Dtos.User;
-using AcessaCity.Business.Dto.City.User;
+using AcessaCity.Business.Dto.User;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;

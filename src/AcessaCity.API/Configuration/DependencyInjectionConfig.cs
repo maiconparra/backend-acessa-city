@@ -50,6 +50,8 @@ namespace AcessaCity.API.Configuration
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IUserRoleService, UserRoleService>();
+            services.AddScoped<IReportInteractionHistoryCommentaryRepository, ReportInteractionHistoryCommentaryRepository>();
+            services.AddScoped<IReportInteractionHistoryCommentaryService, ReportInteractionHistoryCommentaryService>();
 
             //business logic class
             services.AddScoped<ReportStatusUpdate, ReportStatusUpdate>();

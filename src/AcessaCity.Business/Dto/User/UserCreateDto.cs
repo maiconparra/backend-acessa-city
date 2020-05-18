@@ -1,4 +1,4 @@
-namespace AcessaCity.Business.Dto.City.User
+namespace AcessaCity.Business.Dto.User
 {
     public class UserCreateDto
     {
