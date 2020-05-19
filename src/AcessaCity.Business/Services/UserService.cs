@@ -89,5 +89,15 @@ namespace AcessaCity.Business.Services
             }            
             await _firebaseAuth.SetCustomUserClaimsAsync(firebaseUserId, claims);            
         }
+
+        public async Task<bool> UpdateUserPhotoUrl(string firebaseUserId, string photoUrl)
+        {
+            UserRecordArgs args = new UserRecordArgs()
+            {
+                Uid = firebaseUserId,
+                PhotoUrl = photoUrl
+            };             
+            return await _firebaseAuth.UpdateUserAsync(args) != null;
+        }
     }
 }

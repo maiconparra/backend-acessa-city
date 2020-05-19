@@ -44,6 +44,15 @@ namespace AcessaCity.API.V1.Controllers
             return CustomResponse();
         }
 
+        [HttpPut("update-photo-profile")]
+        public async Task<ActionResult> UptePhotoProfile(UpdateUserProfilePhoto photo)
+        {
+            var user = await _repository.GetById(photo.UserId);
+            await _service.UpdateUserPhotoUrl(user.FirebaseUserId, photo.PhotoURL);
+            
+            return CustomResponse();
+        }
+
         [HttpGet("{userId:guid}/coordinators")]
         public async Task<ActionResult> GetCoordinatorsList(Guid userId)
         {
