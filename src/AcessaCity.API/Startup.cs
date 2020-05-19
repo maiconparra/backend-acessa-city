@@ -49,7 +49,6 @@ namespace AcessaCity.API
                 });
             services.AddAutoMapper(typeof(Startup));                        
             services.ResolveDependencies();            
-            //services.AddCors();
             services.WebAPIConfig();            
             services.AddSwaggerGen(c =>
             {
@@ -70,11 +69,11 @@ namespace AcessaCity.API
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();            
+            app.UseAuthorization();  
             app.UseCors(option => 
                 option.AllowAnyOrigin()
-                // .AllowCredentials()
                 .AllowAnyHeader()
+                .AllowAnyMethod()
             );
             app.UseSwagger();
 
