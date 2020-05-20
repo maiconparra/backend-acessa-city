@@ -8,10 +8,10 @@ namespace AcessaCity.Business.Models
     public Guid ReportId { get; set; }
     public Guid InteractionHistoryId { get; set; }
     public Guid UserId { get; set; }
+    public Guid? OwnerUserId { get; set; }
     public DateTime CreationDate { get; set; }
-    public DateTime EstimatadeFinishDate { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime DoneDate { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? DoneDate { get; set; }
 
     [ForeignKey("ReportId")]
     public virtual Report Report { get; set; }
@@ -21,5 +21,8 @@ namespace AcessaCity.Business.Models
 
     [ForeignKey("UserId")]
     public virtual User User { get; set; }
+
+    [ForeignKey("OwnerUserId")]
+    public virtual User OwnerUser { get; set; }
   }
 }

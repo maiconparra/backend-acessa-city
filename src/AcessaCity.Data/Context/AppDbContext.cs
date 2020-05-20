@@ -22,6 +22,7 @@ namespace AcessaCity.Data.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<InteractionHistoryCommentary> InteractionHistoryCommentaries {get; set; }
+        public DbSet<ReportInProgress> ReporstInProgress { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -34,8 +34,8 @@ namespace AcessaCity.API.Configuration
                 options.AddPolicy("*",
                     builder =>
                         builder
-                        // .WithOrigins("*")
-                        .AllowAnyOrigin()
+                        .WithOrigins("*")
+                        // .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         // .AllowCredentials()
