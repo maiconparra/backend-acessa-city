@@ -29,18 +29,11 @@ namespace AcessaCity.Business.Services
 
         public async Task<bool> AddFirebaseUser(UserCreateDto user)
         {
-            string userExists = null;
-            try {
-                await FirebaseAuth.DefaultInstance.GetUserByEmailAsync(user.Email);
-            } catch (FirebaseAuthException ex) {
-                userExists = ex.Message;
-            }                
-
-                if (userExists == null) 
-                {
-                    Notify($"O usuário {user.Email} já existe");  
-                    return false;
-                }          
+            if (await this.FirebaseUserExistsByEmail(user.Email)) 
+            {
+                Notify($"O usuário {user.Email} já existe");  
+                return false;
+            }          
 
             UserRecordArgs args = new UserRecordArgs()
             {
@@ -73,6 +66,16 @@ namespace AcessaCity.Business.Services
             var user = await _repo.Find(u => u.FirebaseUserId == firebaseUserId);
 
             return user.FirstOrDefault();
+        }
+
+        public async Task<bool> FirebaseUserExistsByEmail(string email)
+        {
+            try {                
+                var user = await _firebaseAuth.GetUserByEmailAsync(email);
+                return user != null;
+            } catch (FirebaseAuthException ex) {
+            }
+            return false;
         }
 
         public async Task Update(User user)

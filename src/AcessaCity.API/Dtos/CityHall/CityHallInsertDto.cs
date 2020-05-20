@@ -11,5 +11,6 @@ namespace AcessaCity.API.Dtos.CityHall
         public string Number { get; set; }
         public string Neighborhood { get; set; }
         public string ZIPCode { get; set; }
+        public string Email { get; set; }
     }
 }
