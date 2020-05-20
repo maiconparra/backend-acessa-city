@@ -7,6 +7,7 @@ using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
+using AcessaCity.Business.Models;
 
 namespace AcessaCity.API.V1.Controllers
 {
@@ -33,6 +34,14 @@ namespace AcessaCity.API.V1.Controllers
             return CustomResponse();
         }
 
+        [HttpGet("{userId:guid}")]
+        public async Task<ActionResult<User>> GetUser(Guid userId)
+        {
+            User user = await _service.FindById(userId);            
+            return CustomResponse(user);
+        }
+
+
         [HttpPut("{userId:guid}/update-role")]
         public async Task<ActionResult> UdpdateUserRole(
             Guid userId, 
@@ -45,12 +54,18 @@ namespace AcessaCity.API.V1.Controllers
         }
 
         [HttpPut("update-photo-profile")]
-        public async Task<ActionResult> UptePhotoProfile(UpdateUserProfilePhoto photo)
+        public async Task<ActionResult<User>> UptePhotoProfile(UpdateUserProfilePhoto photo)
         {
-            var user = await _repository.GetById(photo.UserId);
-            await _service.UpdateUserPhotoUrl(user.FirebaseUserId, photo.PhotoURL);
+            User user = await _repository.GetById(photo.UserId);
             
-            return CustomResponse();
+            bool ok = await _service.UpdateUserPhotoUrl(user.FirebaseUserId, photo.PhotoURL);
+            if (ok)
+            {
+                user.ProfileUrl = photo.PhotoURL;
+                await _service.Update(user);
+            }
+            
+            return CustomResponse(user);
         }
 
         [HttpGet("{userId:guid}/coordinators")]

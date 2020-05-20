@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
@@ -53,12 +54,23 @@ namespace AcessaCity.Business.Services
 
                 if (fbUser != null)
                 {
-                    await _userService.Add(new User() {
+                    User newUser = new User() {
                         FirebaseUserId = fbUser.Uid,
                         Email = fbUser.Email,
                         CreationDate = DateTime.Now,
                         FirstName = fbUser.DisplayName
-                    });
+                    };
+
+                    await _userService.Add(newUser);
+
+                    var claims = new Dictionary<string, object>()
+                    {
+                        { "app_user_id", newUser.Id },
+                        { "user", true },
+                        { "city-hall", true }
+                    };       
+
+                    await _userService.UpdateUserClaims(fbUser.Uid, claims);
                 }
             }
         }
