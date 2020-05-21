@@ -161,5 +161,16 @@ namespace AcessaCity.API.V1.Controllers
             await updater.CoordinatorUpdate(reportId, coordinator.CoordinatorId);            
             return Ok();
         }
+
+        [HttpPost("start-progress")]
+        public async Task<ActionResult> ReportStartProgress(
+            ReportStartProgressDto progress,
+            [FromServices]ReportStatusUpdate updater)
+        {
+            Guid statusInProgress = Guid.Parse("c37d9588-1875-44dd-8cf1-6781de7533c3");
+            await updater.StatusUpdate(progress.UserId, progress.ReportId, statusInProgress, progress.Description);
+            
+            return Ok(progress);
+        }
     }
 }
