@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace AcessaCity.Business.Dto.User
 {
     public class UserCreateDto
@@ -9,5 +11,6 @@ namespace AcessaCity.Business.Dto.User
         public string DisplayName { get; set; }
         public string PhotoUrl { get; set; }
         public bool Disabled { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

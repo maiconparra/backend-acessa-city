@@ -67,7 +67,7 @@ namespace AcessaCity.Business.Services
                     {
                         { "app_user_id", newUser.Id },
                         { "user", true },
-                        { "city-hall", true }
+                        { "city_hall", true }
                     };       
 
                     await _userService.UpdateUserClaims(fbUser.Uid, claims);

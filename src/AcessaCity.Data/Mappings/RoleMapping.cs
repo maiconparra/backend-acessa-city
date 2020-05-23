@@ -31,6 +31,11 @@ namespace AcessaCity.Data.Mappings
                 {
                     Id = Guid.Parse("a22497ac-2331-4172-af66-b40fa16e637c"),
                     Name = "admin"
+                },
+                new Role()
+                {
+                    Id = Guid.Parse("9620e0d0-ab29-4f23-a409-9f6e05058f60"),
+                    Name = "city_hall"
                 }
             );
         }

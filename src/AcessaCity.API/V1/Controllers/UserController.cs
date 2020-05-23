@@ -30,8 +30,8 @@ namespace AcessaCity.API.V1.Controllers
         [HttpPost]
         public async Task<ActionResult> Post(UserCreateDto user)
         {
-            await _service.AddFirebaseUser(user);
-            return CustomResponse();
+            var newUser = await _service.AddFirebaseUser(user);
+            return CustomResponse(newUser);
         }
 
         [HttpGet("{userId:guid}")]

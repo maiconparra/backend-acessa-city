@@ -27,12 +27,13 @@ namespace AcessaCity.Business.Services
             await _repo.Add(user);
         }
 
-        public async Task<bool> AddFirebaseUser(UserCreateDto user)
+        public async Task<User> AddFirebaseUser(UserCreateDto user)
         {
+            User newUser = null;
             if (await this.FirebaseUserExistsByEmail(user.Email)) 
             {
                 Notify($"O usuário {user.Email} já existe");  
-                return false;
+                return newUser;
             }          
 
             UserRecordArgs args = new UserRecordArgs()
@@ -46,9 +47,30 @@ namespace AcessaCity.Business.Services
                 Disabled = false,
             };            
 
-            await FirebaseAuth.DefaultInstance.CreateUserAsync(args);
+            var fbUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(args);
+            if (fbUser != null)
+            {
+                    newUser = new User() {
+                    FirebaseUserId = fbUser.Uid,
+                    Email = fbUser.Email,
+                    CreationDate = DateTime.Now,
+                    FirstName = fbUser.DisplayName,
+                    ProfileUrl = fbUser.PhotoUrl
+                };
 
-            return FirebaseAuth.DefaultInstance.GetUserByEmailAsync(args.Email) != null;
+                await Add(newUser);
+
+                var claims = new Dictionary<string, object>()
+                {
+                    { "app_user_id", newUser.Id },
+                    { "user", true },
+                    { user.Roles[0], true }
+                };
+
+                await UpdateUserClaims(fbUser.Uid, claims);
+            }
+
+            return newUser;
         }
 
         public void Dispose()
