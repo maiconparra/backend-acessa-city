@@ -122,5 +122,13 @@ namespace AcessaCity.API.V1.Controllers
 
             return Ok();
         }
+
+        [HttpGet("{cityhallId:Guid}/users")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers(Guid cityhallId)
+        {
+            return CustomResponse(
+                await _cityHallUserRepoistory.AllRelatedUsers(cityhallId)
+            );
+        }
     }
 }
