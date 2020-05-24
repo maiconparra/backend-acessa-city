@@ -6,6 +6,7 @@ using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
 using AcessaCity.Business.Models;
+using FirebaseAdmin.Auth;
 
 namespace AcessaCity.Business.Services
 {
@@ -14,24 +15,34 @@ namespace AcessaCity.Business.Services
         private readonly IUserRoleRepository _repository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IUserService _userService;
+        private readonly FirebaseAuth _firebaseAuth;
 
         public UserRoleService(
             INotifier notifier,
             IUserRoleRepository repository,
             IRoleRepository roleRepository,
             IUserRepository userRepository,
-            IUserService userService) : base(notifier)
+            FirebaseAuth firebaseAuth) : base(notifier)
         {
             _repository = repository;
             _roleRepository = roleRepository;
             _userRepository = userRepository;
-            _userService = userService;
+            _firebaseAuth = firebaseAuth;
         }
 
         public void Dispose()
         {
             _repository?.Dispose();
+        }
+
+        public async Task UpdateUserClaims(Guid userId, Dictionary<string, object> claims)
+        {
+            var user = await _userRepository.GetById(userId);
+            if (!claims.ContainsKey("app_user_id"))
+            {
+                claims.Add("app_user_id", user.Id);
+            }            
+            await _firebaseAuth.SetCustomUserClaimsAsync(user.FirebaseUserId, claims);            
         }
 
         public async Task UpdateUserRole(string role, Guid userId, bool allow)
@@ -79,7 +90,7 @@ namespace AcessaCity.Business.Services
                 claims.Add(item.Role.Name, true);                
             }
 
-            await _userService.UpdateUserClaims(user.FirebaseUserId, claims);
+            await this.UpdateUserClaims(user.Id, claims);
         }
     }
 }

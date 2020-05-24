@@ -15,15 +15,18 @@ namespace AcessaCity.Business.Services
         private readonly ICityHallRepository _repository;
         private readonly IUserService _userService;
         private readonly FirebaseAuth _firebaseAuth;
+        private readonly IUserRoleService _roleService;
         public CityHallService(
             INotifier notifier,
             ICityHallRepository repository,
             IUserService userService,
-            FirebaseAuth firebaseAuth) : base(notifier)
+            FirebaseAuth firebaseAuth,
+            IUserRoleService roleService) : base(notifier)
         {
             _repository = repository;
             _firebaseAuth = firebaseAuth;
             _userService = userService;
+            _roleService = roleService;
         }
 
         public async Task Add(CityHall cityHall)
@@ -70,7 +73,7 @@ namespace AcessaCity.Business.Services
                         { "city_hall", true }
                     };       
 
-                    await _userService.UpdateUserClaims(fbUser.Uid, claims);
+                    await _roleService.UpdateUserClaims(newUser.Id , claims);
                 }
             }
         }

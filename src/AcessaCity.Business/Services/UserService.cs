@@ -15,11 +15,16 @@ namespace AcessaCity.Business.Services
     {
         private readonly IUserRepository _repo;
         private readonly FirebaseAuth _firebaseAuth;
+        private readonly IUserRoleService _userRoleService;
 
-        public UserService(INotifier notifier, IUserRepository repository, FirebaseAuth firebaseAuth) : base(notifier)
+        public UserService(INotifier notifier,
+            IUserRepository repository, 
+            FirebaseAuth firebaseAuth,
+            IUserRoleService userRoleService) : base(notifier)
         {
             _repo = repository;
             _firebaseAuth = firebaseAuth;
+            _userRoleService = userRoleService;
         }
 
         public async Task Add(User user)
@@ -67,7 +72,10 @@ namespace AcessaCity.Business.Services
                     { user.Roles[0], true }
                 };
 
-                await UpdateUserClaims(fbUser.Uid, claims);
+                await _userRoleService.UpdateUserRole("user", newUser.Id, true);
+                await _userRoleService.UpdateUserRole(user.Roles[0], newUser.Id, true);
+
+                await _userRoleService.UpdateUserClaims(newUser.Id, claims);
             }
 
             return newUser;
@@ -103,16 +111,6 @@ namespace AcessaCity.Business.Services
         public async Task Update(User user)
         {
             await _repo.Update(user);
-        }
-
-        public async Task UpdateUserClaims(string firebaseUserId, Dictionary<string, object> claims)
-        {
-            var user = await this.FindUserByFirebaseId(firebaseUserId);
-            if (!claims.ContainsKey("app_user_id"))
-            {
-                claims.Add("app_user_id", user.Id);
-            }            
-            await _firebaseAuth.SetCustomUserClaimsAsync(firebaseUserId, claims);            
         }
 
         public async Task<bool> UpdateUserPhotoUrl(string firebaseUserId, string photoUrl)

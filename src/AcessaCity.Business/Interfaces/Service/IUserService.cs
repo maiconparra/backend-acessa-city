@@ -17,6 +17,5 @@ namespace AcessaCity.Business.Interfaces.Service
         Task<bool> FirebaseUserExistsByEmail(string email);
         Task<User> AddFirebaseUser(UserCreateDto user);
         Task<bool> UpdateUserPhotoUrl(string firebaseUserId, string photoUrl);
-        Task UpdateUserClaims(string firebaseUserId, Dictionary<string, object> claims);         
     }
 }

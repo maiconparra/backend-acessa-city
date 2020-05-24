@@ -55,7 +55,7 @@ namespace AcessaCity.API.V1.Controllers
                 { "user", true }
             };       
             await  _roleService.UpdateUserRole("user", newUser.Id, true);
-            await _service.UpdateUserClaims(this.CurrentUser().Uid, claims);
+            await _roleService.UpdateUserClaims(newUser.Id, claims);
             this.RefreshCurrentUser();
 
             return Ok(
