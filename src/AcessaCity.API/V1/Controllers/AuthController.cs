@@ -15,15 +15,19 @@ namespace AcessaCity.API.V1.Controllers
     public class AuthController : MainController
     {
         private readonly IUserService _service;
-        public AuthController(INotifier notifier, IUserService service) : base(notifier)
+        private readonly IUserRoleService _roleService;
+        public AuthController(INotifier notifier, IUserService service, IUserRoleService roleService) : base(notifier)
         {
             _service = service;
+            _roleService = roleService;
         }
 
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Login()
         {
+            Console.WriteLine("Login Auth");
+            Console.WriteLine(this.CurrentUser().Uid);
             var authUser = this.CurrentUser();
             //busca o usuario no banco
             var usuario = await _service.FindUserByFirebaseId(authUser.Uid);
@@ -50,7 +54,7 @@ namespace AcessaCity.API.V1.Controllers
                 { "app_user_id", newUser.Id },
                 { "user", true }
             };       
-
+            await  _roleService.UpdateUserRole("user", newUser.Id, true);
             await _service.UpdateUserClaims(this.CurrentUser().Uid, claims);
             this.RefreshCurrentUser();
 

@@ -65,16 +65,20 @@ namespace AcessaCity.API
             }
 
             // app.UseHttpsRedirection();
+            
 
             app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();  
             app.UseCors(option => 
                 option.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
-            );
+            );            
+            app.UseAuthentication();
+app.UseAuthorization();  
+
+            
+            
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>

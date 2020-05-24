@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AcessaCity.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200412214328_AddRolesTable")]
-    partial class AddRolesTable
+    [Migration("20200524044410_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,6 +96,9 @@ namespace AcessaCity.Data.Migrations
                     b.Property<Guid>("CityId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
@@ -168,7 +171,47 @@ namespace AcessaCity.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NewReportStatusId");
+
+                    b.HasIndex("ReportId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("oldReportStatusId");
+
                     b.ToTable("InteractionHistories");
+                });
+
+            modelBuilder.Entity("AcessaCity.Business.Models.InteractionHistoryCommentary", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Commentary")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("InteractionHistoryCommentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("InteractionHistoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InteractionHistoryCommentId");
+
+                    b.HasIndex("InteractionHistoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("InteractionHistoryCommentaries");
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.Report", b =>
@@ -188,6 +231,9 @@ namespace AcessaCity.Data.Migrations
                     b.Property<Guid>("CityId")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid?>("CoordinatorId")
+                        .HasColumnType("char(36)");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
 
@@ -204,8 +250,16 @@ namespace AcessaCity.Data.Migrations
                         .HasColumnType("decimal(10,8)")
                         .HasDefaultValue(0m);
 
+                    b.Property<string>("Neighborhood")
+                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4")
+                        .HasMaxLength(250);
+
                     b.Property<Guid>("ReportStatusId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4")
+                        .HasMaxLength(250);
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -223,6 +277,8 @@ namespace AcessaCity.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CityId");
+
+                    b.HasIndex("CoordinatorId");
 
                     b.HasIndex("ReportStatusId");
 
@@ -309,6 +365,46 @@ namespace AcessaCity.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReportComments");
+                });
+
+            modelBuilder.Entity("AcessaCity.Business.Models.ReportInProgress", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DoneDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("InteractionHistoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("OwnerUserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ReportId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InteractionHistoryId");
+
+                    b.HasIndex("OwnerUserId");
+
+                    b.HasIndex("ReportId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReporstInProgress");
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.ReportStatus", b =>
@@ -418,6 +514,11 @@ namespace AcessaCity.Data.Migrations
                         {
                             Id = new Guid("a22497ac-2331-4172-af66-b40fa16e637c"),
                             Name = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("9620e0d0-ab29-4f23-a409-9f6e05058f60"),
+                            Name = "city_hall"
                         });
                 });
 
@@ -512,6 +613,16 @@ namespace AcessaCity.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe"),
+                            CreationDate = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "acessa-city-admin@acessacity.com.br",
+                            FirebaseUserId = "ePgjZWASfRhIULftKjEi9jbwMVW2",
+                            FirstName = "Administrador AC"
+                        });
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.UserRoles", b =>
@@ -533,6 +644,14 @@ namespace AcessaCity.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1f548d02-cdac-4c00-b2b7-9c088e0f7c81"),
+                            RoleId = new Guid("a22497ac-2331-4172-af66-b40fa16e637c"),
+                            UserId = new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe")
+                        });
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.Category", b =>
@@ -575,6 +694,50 @@ namespace AcessaCity.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AcessaCity.Business.Models.InteractionHistory", b =>
+                {
+                    b.HasOne("AcessaCity.Business.Models.ReportStatus", "NewReportStatus")
+                        .WithMany()
+                        .HasForeignKey("NewReportStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.Report", "Report")
+                        .WithMany()
+                        .HasForeignKey("ReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.ReportStatus", "OldReportStatus")
+                        .WithMany()
+                        .HasForeignKey("oldReportStatusId");
+                });
+
+            modelBuilder.Entity("AcessaCity.Business.Models.InteractionHistoryCommentary", b =>
+                {
+                    b.HasOne("AcessaCity.Business.Models.InteractionHistoryCommentary", "ParentInteractionHistoryCommentary")
+                        .WithMany("InteractionHistoryCommentaries")
+                        .HasForeignKey("InteractionHistoryCommentId");
+
+                    b.HasOne("AcessaCity.Business.Models.InteractionHistory", null)
+                        .WithMany("Commentaries")
+                        .HasForeignKey("InteractionHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AcessaCity.Business.Models.Report", b =>
                 {
                     b.HasOne("AcessaCity.Business.Models.Category", "Category")
@@ -588,6 +751,10 @@ namespace AcessaCity.Data.Migrations
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.User", "Coordinator")
+                        .WithMany()
+                        .HasForeignKey("CoordinatorId");
 
                     b.HasOne("AcessaCity.Business.Models.ReportStatus", "ReportStatus")
                         .WithMany()
@@ -611,7 +778,7 @@ namespace AcessaCity.Data.Migrations
             modelBuilder.Entity("AcessaCity.Business.Models.ReportAttachment", b =>
                 {
                     b.HasOne("AcessaCity.Business.Models.Report", "Report")
-                        .WithMany()
+                        .WithMany("Attachments")
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -647,6 +814,31 @@ namespace AcessaCity.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AcessaCity.Business.Models.ReportInProgress", b =>
+                {
+                    b.HasOne("AcessaCity.Business.Models.InteractionHistory", "InteractionHistory")
+                        .WithMany()
+                        .HasForeignKey("InteractionHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.User", "OwnerUser")
+                        .WithMany()
+                        .HasForeignKey("OwnerUserId");
+
+                    b.HasOne("AcessaCity.Business.Models.Report", "Report")
+                        .WithMany()
+                        .HasForeignKey("ReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AcessaCity.Business.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AcessaCity.Business.Models.UserRoles", b =>
                 {
                     b.HasOne("AcessaCity.Business.Models.Role", "Role")
@@ -656,7 +848,7 @@ namespace AcessaCity.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("AcessaCity.Business.Models.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

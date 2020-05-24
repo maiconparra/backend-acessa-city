@@ -611,6 +611,16 @@ namespace AcessaCity.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe"),
+                            CreationDate = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "acessa-city-admin@acessacity.com.br",
+                            FirebaseUserId = "ePgjZWASfRhIULftKjEi9jbwMVW2",
+                            FirstName = "Administrador AC"
+                        });
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.UserRoles", b =>
@@ -632,6 +642,14 @@ namespace AcessaCity.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("1f548d02-cdac-4c00-b2b7-9c088e0f7c81"),
+                            RoleId = new Guid("a22497ac-2331-4172-af66-b40fa16e637c"),
+                            UserId = new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe")
+                        });
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.Category", b =>
@@ -828,7 +846,7 @@ namespace AcessaCity.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("AcessaCity.Business.Models.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

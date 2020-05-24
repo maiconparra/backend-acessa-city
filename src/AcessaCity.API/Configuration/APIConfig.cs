@@ -35,7 +35,7 @@ namespace AcessaCity.API.Configuration
                     builder =>
                         builder
                         .WithOrigins("*")
-                        // .AllowAnyOrigin()
+                        .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         // .AllowCredentials()

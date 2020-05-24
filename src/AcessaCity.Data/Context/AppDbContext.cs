@@ -46,6 +46,7 @@ namespace AcessaCity.Data.Context
             modelBuilder.ApplyConfiguration(new ReportAttachmentMapping());
             modelBuilder.ApplyConfiguration(new InteractionHistoryMapping());
             modelBuilder.ApplyConfiguration(new RoleMapping());
+            modelBuilder.ApplyConfiguration(new UserRolesMapping());
 
             base.OnModelCreating(modelBuilder);
         }        
