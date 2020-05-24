@@ -19,6 +19,6 @@ namespace AcessaCity.Business.Models
         [ForeignKey("CityId")]
         public virtual City City { get; set; }
 
-        public virtual IEnumerable<CityHallRelatedUser> RelatedUsers { get; set; }
+        public virtual IEnumerable<User> Users { get; set; }
     }
 }

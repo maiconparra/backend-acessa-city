@@ -19,19 +19,19 @@ namespace AcessaCity.API.V1.Controllers
     {
         private readonly ICityHallRepository _repository;
         private readonly ICityHallService _service;
-        private readonly ICityHallRelatedUserRepository _cityHallUserRepoistory;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public CityHallController(
             INotifier notifier,
             ICityHallService service,
             ICityHallRepository repository,
-            ICityHallRelatedUserRepository cityHallUserRepoistory,
+            IUserService userService,
             IMapper mapper) : base(notifier)
         {
             _repository = repository;
             _service = service;
-            _cityHallUserRepoistory = cityHallUserRepoistory;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -79,30 +79,6 @@ namespace AcessaCity.API.V1.Controllers
         [HttpPut("link-cityhall-user")]
         public async Task<ActionResult> UpdateRelatedUser(CityHallRelatedUserUpdateDto relation)
         {
-            var currentRelations = await _cityHallUserRepoistory.Find(
-                r => r.CityHallId == relation.CityHallId && r.UserId == relation.UserId
-            );
-
-            var currentRelation = currentRelations.FirstOrDefault();
-
-            if (relation.AllowUser)
-            {
-                if (currentRelation == null)
-                {
-                    await _cityHallUserRepoistory.Add(new CityHallRelatedUser {
-                        UserId = relation.UserId,
-                        CityHallId = relation.CityHallId
-                    });                    
-                }
-            }
-            else
-            {
-                if (currentRelation != null)
-                {
-                    await _cityHallUserRepoistory.Remove(currentRelation.Id);
-                }
-            }            
-
             return Ok();
         }
 
@@ -127,7 +103,7 @@ namespace AcessaCity.API.V1.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers(Guid cityhallId)
         {
             return CustomResponse(
-                await _cityHallUserRepoistory.AllRelatedUsers(cityhallId)
+                await _userService.AllUsersByCityHallId(cityhallId)
             );
         }
     }

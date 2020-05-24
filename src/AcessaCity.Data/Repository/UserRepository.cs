@@ -16,18 +16,18 @@ namespace AcessaCity.Data.Repository
 
         public async Task<IEnumerable<User>> UserCoordinators(Guid userId)
         {
-            var cityHallRelatedUserDbSet = Db.Set<CityHallRelatedUser>();
-            var user = await this.GetById(userId);
-            Console.WriteLine(user.RelatedCityHalls.Count());
+            Guid coord = Guid.Parse("f5e0afe9-f2e1-473c-99bc-01aa12c196ce");
+            User reqUser = await GetById(userId);
+            var userRoles = Db.Set<UserRoles>();
 
-            var lista =
-            from ch in cityHallRelatedUserDbSet
-            where user.RelatedCityHalls
-                .Select(r => r.CityHallId) 
-                .Contains(ch.CityHallId)                
-            select (ch.User); 
+            var users =
+            from user in DbSet
+                where user.CityHallId == reqUser.CityHallId
+                && user.Id != userId
+                join role in userRoles on true equals role.Role.Name == "coordinator"
+            select(role.User);
 
-            return lista.Where(l => l.Id != userId);
+            return users;
         }
     }
 }

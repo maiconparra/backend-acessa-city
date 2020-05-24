@@ -81,23 +81,6 @@ namespace AcessaCity.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    FirebaseUserId = table.Column<string>(nullable: true),
-                    FirstName = table.Column<string>(maxLength: 45, nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 200, nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    ProfileUrl = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -115,31 +98,6 @@ namespace AcessaCity.Data.Migrations
                         name: "FK_Cities_States_StateId",
                         column: x => x.StateId,
                         principalTable: "States",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false),
-                    RoleId = table.Column<Guid>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -168,6 +126,30 @@ namespace AcessaCity.Data.Migrations
                         principalTable: "Cities",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    FirebaseUserId = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(maxLength: 45, nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 200, nullable: true),
+                    CityHallId = table.Column<Guid>(nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    ProfileUrl = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_CityHalls_CityHallId",
+                        column: x => x.CityHallId,
+                        principalTable: "CityHalls",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -232,24 +214,24 @@ namespace AcessaCity.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CityHallRelatedUser",
+                name: "UserRoles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CityHallId = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<Guid>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CityHallRelatedUser", x => x.Id);
+                    table.PrimaryKey("PK_UserRoles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CityHallRelatedUser_CityHalls_CityHallId",
-                        column: x => x.CityHallId,
-                        principalTable: "CityHalls",
+                        name: "FK_UserRoles_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CityHallRelatedUser_Users_UserId",
+                        name: "FK_UserRoles_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -495,8 +477,8 @@ namespace AcessaCity.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "CreationDate", "Email", "FirebaseUserId", "FirstName", "LastName", "ProfileUrl" },
-                values: new object[] { new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe"), new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "acessa-city-admin@acessacity.com.br", "DDwoQufyCMSU0dE3QqhbvDFHIoa2", "Administrador AC", null, null });
+                columns: new[] { "Id", "CityHallId", "CreationDate", "Email", "FirebaseUserId", "FirstName", "LastName", "ProfileUrl" },
+                values: new object[] { new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe"), null, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "acessa-city-admin@acessacity.com.br", "ePgjZWASfRhIULftKjEi9jbwMVW2", "Administrador AC", null, null });
 
             migrationBuilder.InsertData(
                 table: "Cities",
@@ -517,16 +499,6 @@ namespace AcessaCity.Data.Migrations
                 name: "IX_Cities_StateId",
                 table: "Cities",
                 column: "StateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CityHallRelatedUser_CityHallId",
-                table: "CityHallRelatedUser",
-                column: "CityHallId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CityHallRelatedUser_UserId",
-                table: "CityHallRelatedUser",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CityHalls_CityId",
@@ -652,13 +624,15 @@ namespace AcessaCity.Data.Migrations
                 name: "IX_UserRoles_UserId",
                 table: "UserRoles",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_CityHallId",
+                table: "Users",
+                column: "CityHallId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "CityHallRelatedUser");
-
             migrationBuilder.DropTable(
                 name: "InteractionHistoryCommentaries");
 
@@ -678,9 +652,6 @@ namespace AcessaCity.Data.Migrations
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
-                name: "CityHalls");
-
-            migrationBuilder.DropTable(
                 name: "InteractionHistories");
 
             migrationBuilder.DropTable(
@@ -693,9 +664,6 @@ namespace AcessaCity.Data.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Cities");
-
-            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
@@ -703,6 +671,12 @@ namespace AcessaCity.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "UrgencyLevels");
+
+            migrationBuilder.DropTable(
+                name: "CityHalls");
+
+            migrationBuilder.DropTable(
+                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "States");

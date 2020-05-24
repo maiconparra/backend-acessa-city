@@ -41,6 +41,12 @@ namespace AcessaCity.Business.Services
                 return newUser;
             }          
 
+            if (!user.Roles.Any())
+            {
+                Notify("Não é possível criar um usuário sem as definições de níveis de acesso");
+                return newUser;
+            }
+
             UserRecordArgs args = new UserRecordArgs()
             {
                 Email = user.Email,
@@ -60,7 +66,8 @@ namespace AcessaCity.Business.Services
                     Email = fbUser.Email,
                     CreationDate = DateTime.Now,
                     FirstName = fbUser.DisplayName,
-                    ProfileUrl = fbUser.PhotoUrl
+                    ProfileUrl = fbUser.PhotoUrl,
+                    CityHallId = user.CityHallId
                 };
 
                 await Add(newUser);
@@ -79,6 +86,11 @@ namespace AcessaCity.Business.Services
             }
 
             return newUser;
+        }
+
+        public async Task<IEnumerable<User>> AllUsersByCityHallId(Guid Id)
+        {
+            return await _repo.Find(x => x.CityHallId == Id);
         }
 
         public void Dispose()
@@ -111,6 +123,40 @@ namespace AcessaCity.Business.Services
         public async Task Update(User user)
         {
             await _repo.Update(user);
+        }
+
+        public async Task<bool> UpdateUserData(string firebaseUserId, string firstName, string lastName)
+        {
+            UserRecordArgs args = new UserRecordArgs()
+            {
+                Uid = firebaseUserId,
+                DisplayName = $"{firstName} {lastName}"
+            };             
+
+            return await _firebaseAuth.UpdateUserAsync(args) != null;
+        }
+
+        public async Task<bool> UpdateUserEmail(string firebaseUserId, string oldEmail, string email)
+        {
+            var currentUserUpdate = await _firebaseAuth.GetUserByEmailAsync(oldEmail);
+
+            if (await FirebaseUserExistsByEmail(email))
+            {
+                var user = await _firebaseAuth.GetUserByEmailAsync(email);
+                if (user.Uid != currentUserUpdate.Uid)
+                {
+                    Notify($"O e-mail {email} já está em uso por outro usuário.");
+                    return false;
+                }
+            }
+
+            UserRecordArgs args = new UserRecordArgs()
+            {
+                Uid = firebaseUserId,
+                Email = email
+            };             
+
+            return await _firebaseAuth.UpdateUserAsync(args) != null;
         }
 
         public async Task<bool> UpdateUserPhotoUrl(string firebaseUserId, string photoUrl)

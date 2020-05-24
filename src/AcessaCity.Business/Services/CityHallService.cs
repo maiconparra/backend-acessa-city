@@ -61,10 +61,12 @@ namespace AcessaCity.Business.Services
                         FirebaseUserId = fbUser.Uid,
                         Email = fbUser.Email,
                         CreationDate = DateTime.Now,
-                        FirstName = fbUser.DisplayName
+                        FirstName = fbUser.DisplayName,
+                        CityHallId = newCityHall.Id
                     };
 
                     await _userService.Add(newUser);
+                    // await _relationHandler.UpdateRelationAsync(newUser.Id, newCityHall.Id, true);
 
                     var claims = new Dictionary<string, object>()
                     {
@@ -72,7 +74,9 @@ namespace AcessaCity.Business.Services
                         { "user", true },
                         { "city_hall", true }
                     };       
-
+                    await _roleService.UpdateUserRole("user", newUser.Id, true);
+                    await _roleService.UpdateUserRole("city_hall", newUser.Id, true);
+                    
                     await _roleService.UpdateUserClaims(newUser.Id , claims);
                 }
             }

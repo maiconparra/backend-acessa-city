@@ -53,6 +53,37 @@ namespace AcessaCity.API.V1.Controllers
             return CustomResponse();
         }
 
+        [HttpPut("update-data-profile")]
+        public async Task<ActionResult<User>> UpteEmailProfile(UpdateUserDataDto userData)
+        {
+            User user = await _repository.GetById(userData.UserId);
+            bool emailOk = true;
+            bool userOk = true;
+            if (user != null)
+            {
+                if (user.Email != userData.Email)
+                {
+                    emailOk = await _service.UpdateUserEmail(user.FirebaseUserId, user.Email, userData.Email);                            
+                    user.Email = userData.Email;
+                }
+            }
+
+            if (emailOk)
+            {
+                user.FirstName = userData.FirstName;
+                user.LastName = userData.LastName;
+                
+                userOk = await _service.UpdateUserData(user.FirebaseUserId, userData.FirstName, userData.LastName);          
+            }
+
+            if (userOk && emailOk)
+            {
+                await _service.Update(user);  
+            }
+            
+            return CustomResponse(user);
+        }
+
         [HttpPut("update-photo-profile")]
         public async Task<ActionResult<User>> UptePhotoProfile(UpdateUserProfilePhoto photo)
         {

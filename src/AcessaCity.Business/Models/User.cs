@@ -10,10 +10,11 @@ namespace AcessaCity.Business.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public Guid? CityHallId { get; set; }
         public DateTime CreationDate { get; set; }
-        public string ProfileUrl { get; set; }
+        public string ProfileUrl { get; set; }        
 
-        public virtual IEnumerable<CityHallRelatedUser> RelatedCityHalls { get; set; }
+        public virtual CityHall CityHall { get; set; }
         public virtual IEnumerable<UserRoles> UserRoles { get; set; }
         public virtual IEnumerable<string> Roles { get => RolesArray(); }
 

@@ -122,27 +122,6 @@ namespace AcessaCity.Data.Migrations
                     b.ToTable("CityHalls");
                 });
 
-            modelBuilder.Entity("AcessaCity.Business.Models.CityHallRelatedUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("CityHallId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityHallId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CityHallRelatedUser");
-                });
-
             modelBuilder.Entity("AcessaCity.Business.Models.InteractionHistory", b =>
                 {
                     b.Property<Guid>("Id")
@@ -588,6 +567,9 @@ namespace AcessaCity.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid?>("CityHallId")
+                        .HasColumnType("char(36)");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
 
@@ -609,6 +591,8 @@ namespace AcessaCity.Data.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityHallId");
 
                     b.ToTable("Users");
 
@@ -673,21 +657,6 @@ namespace AcessaCity.Data.Migrations
                     b.HasOne("AcessaCity.Business.Models.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AcessaCity.Business.Models.CityHallRelatedUser", b =>
-                {
-                    b.HasOne("AcessaCity.Business.Models.CityHall", "CityHall")
-                        .WithMany("RelatedUsers")
-                        .HasForeignKey("CityHallId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AcessaCity.Business.Models.User", "User")
-                        .WithMany("RelatedCityHalls")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -835,6 +804,13 @@ namespace AcessaCity.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("AcessaCity.Business.Models.User", b =>
+                {
+                    b.HasOne("AcessaCity.Business.Models.CityHall", "CityHall")
+                        .WithMany("Users")
+                        .HasForeignKey("CityHallId");
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.UserRoles", b =>
