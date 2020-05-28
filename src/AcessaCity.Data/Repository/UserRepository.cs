@@ -14,6 +14,14 @@ namespace AcessaCity.Data.Repository
         {
         }
 
+        public async Task Inactive(Guid userId)
+        {
+            var user = await GetById(userId);
+            user.Active = false;
+
+            await Update(user);
+        }
+
         public async Task<IEnumerable<User>> UserCoordinators(Guid userId)
         {
             Guid coord = Guid.Parse("f5e0afe9-f2e1-473c-99bc-01aa12c196ce");

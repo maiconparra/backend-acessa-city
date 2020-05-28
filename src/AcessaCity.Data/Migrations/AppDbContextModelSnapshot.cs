@@ -567,6 +567,11 @@ namespace AcessaCity.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<bool?>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(true);
+
                     b.Property<Guid?>("CityHallId")
                         .HasColumnType("char(36)");
 
@@ -599,10 +604,10 @@ namespace AcessaCity.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe"),
+                            Id = new Guid("8d4e6519-f440-4272-9c88-45d04f7f447e"),
                             CreationDate = new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "acessa-city-admin@acessacity.com.br",
-                            FirebaseUserId = "ePgjZWASfRhIULftKjEi9jbwMVW2",
+                            FirebaseUserId = "DDwoQufyCMSU0dE3QqhbvDFHIoa2",
                             FirstName = "Administrador AC"
                         });
                 });
@@ -632,7 +637,7 @@ namespace AcessaCity.Data.Migrations
                         {
                             Id = new Guid("1f548d02-cdac-4c00-b2b7-9c088e0f7c81"),
                             RoleId = new Guid("a22497ac-2331-4172-af66-b40fa16e637c"),
-                            UserId = new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe")
+                            UserId = new Guid("8d4e6519-f440-4272-9c88-45d04f7f447e")
                         });
                 });
 

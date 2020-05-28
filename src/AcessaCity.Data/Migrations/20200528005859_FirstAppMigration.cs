@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AcessaCity.Data.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class FirstAppMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -139,7 +139,8 @@ namespace AcessaCity.Data.Migrations
                     Email = table.Column<string>(maxLength: 200, nullable: true),
                     CityHallId = table.Column<Guid>(nullable: true),
                     CreationDate = table.Column<DateTime>(nullable: false),
-                    ProfileUrl = table.Column<string>(nullable: true)
+                    ProfileUrl = table.Column<string>(nullable: true),
+                    Active = table.Column<bool>(nullable: true, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -478,7 +479,7 @@ namespace AcessaCity.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CityHallId", "CreationDate", "Email", "FirebaseUserId", "FirstName", "LastName", "ProfileUrl" },
-                values: new object[] { new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe"), null, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "acessa-city-admin@acessacity.com.br", "ePgjZWASfRhIULftKjEi9jbwMVW2", "Administrador AC", null, null });
+                values: new object[] { new Guid("8d4e6519-f440-4272-9c88-45d04f7f447e"), null, new DateTime(2020, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "acessa-city-admin@acessacity.com.br", "DDwoQufyCMSU0dE3QqhbvDFHIoa2", "Administrador AC", null, null });
 
             migrationBuilder.InsertData(
                 table: "Cities",
@@ -488,7 +489,7 @@ namespace AcessaCity.Data.Migrations
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "Id", "RoleId", "UserId" },
-                values: new object[] { new Guid("1f548d02-cdac-4c00-b2b7-9c088e0f7c81"), new Guid("a22497ac-2331-4172-af66-b40fa16e637c"), new Guid("da6712f8-405c-4ee7-b1d6-15295fa93efe") });
+                values: new object[] { new Guid("1f548d02-cdac-4c00-b2b7-9c088e0f7c81"), new Guid("a22497ac-2331-4172-af66-b40fa16e637c"), new Guid("8d4e6519-f440-4272-9c88-45d04f7f447e") });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_CategoryId",

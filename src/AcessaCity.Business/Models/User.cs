@@ -12,7 +12,8 @@ namespace AcessaCity.Business.Models
         public string Email { get; set; }
         public Guid? CityHallId { get; set; }
         public DateTime CreationDate { get; set; }
-        public string ProfileUrl { get; set; }        
+        public string ProfileUrl { get; set; }
+        public bool? Active { get; set; }
 
         public virtual CityHall CityHall { get; set; }
         public virtual IEnumerable<UserRoles> UserRoles { get; set; }

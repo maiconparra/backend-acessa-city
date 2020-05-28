@@ -7,7 +7,7 @@ namespace AcessaCity.Business.Interfaces.Repository
 {
     public interface IUserRepository : IRepository<User>
     {
-
+        Task Inactive(Guid userId);
         Task<IEnumerable<User>> UserCoordinators(Guid userId);
     }
 }

@@ -161,10 +161,11 @@ namespace AcessaCity.Business.Services
 
         public async Task<bool> UpdateUserPhotoUrl(string firebaseUserId, string photoUrl)
         {
+            var photo = photoUrl == "" ? null : photoUrl;
             UserRecordArgs args = new UserRecordArgs()
             {
                 Uid = firebaseUserId,
-                PhotoUrl = photoUrl
+                PhotoUrl = photo
             };             
             return await _firebaseAuth.UpdateUserAsync(args) != null;
         }

@@ -25,12 +25,15 @@ namespace AcessaCity.Data.Mappings
             builder.Property(u => u.ProfileUrl)
                 .IsRequired(false);
 
+            builder.Property(u => u.Active)
+                .HasDefaultValue(true);
+
             builder.HasData(
                 new User() {
-                    Id = Guid.Parse("da6712f8-405c-4ee7-b1d6-15295fa93efe"),
+                    Id = Guid.Parse("8d4e6519-f440-4272-9c88-45d04f7f447e"),
                     CreationDate = DateTime.Parse("01-01-2020"),
                     Email = "acessa-city-admin@acessacity.com.br",
-                    FirebaseUserId = "ePgjZWASfRhIULftKjEi9jbwMVW2",
+                    FirebaseUserId = "DDwoQufyCMSU0dE3QqhbvDFHIoa2",
                     FirstName = "Administrador AC"
                 }
             );            

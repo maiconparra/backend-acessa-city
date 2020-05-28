@@ -13,7 +13,7 @@ namespace AcessaCity.Data.Mappings
                 new UserRoles() {
                     Id = Guid.Parse("1f548d02-cdac-4c00-b2b7-9c088e0f7c81"),
                     RoleId = Guid.Parse("a22497ac-2331-4172-af66-b40fa16e637c"),
-                    UserId = Guid.Parse("da6712f8-405c-4ee7-b1d6-15295fa93efe")
+                    UserId = Guid.Parse("8d4e6519-f440-4272-9c88-45d04f7f447e")
                 }
             );   
         }
