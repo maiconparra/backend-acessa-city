@@ -99,6 +99,14 @@ namespace AcessaCity.API.V1.Controllers
             return CustomResponse(user);
         }
 
+        [HttpDelete("{userId:guid}")]
+        public async Task<ActionResult> Delete(Guid userId)
+        {   
+            await _repository.Inactive(userId);
+            
+            return CustomResponse();
+        }
+
         [HttpGet("{userId:guid}/coordinators")]
         public async Task<ActionResult> GetCoordinatorsList(Guid userId)
         {
