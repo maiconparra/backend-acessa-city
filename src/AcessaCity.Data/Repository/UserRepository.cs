@@ -32,6 +32,7 @@ namespace AcessaCity.Data.Repository
             from user in DbSet
                 where user.CityHallId == reqUser.CityHallId
                 && user.Id != userId
+                && user.Active == true
                 join role in userRoles on true equals role.Role.Name == "coordinator"
             select(role.User);
 

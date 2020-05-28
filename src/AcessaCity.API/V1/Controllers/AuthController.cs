@@ -32,6 +32,11 @@ namespace AcessaCity.API.V1.Controllers
             //busca o usuario no banco
             var usuario = await _service.FindUserByFirebaseId(authUser.Uid);
 
+            if (!(usuario.Active == true))
+            {
+                return NotFound();
+            }
+
             if (usuario != null)
             {
                 return Ok(

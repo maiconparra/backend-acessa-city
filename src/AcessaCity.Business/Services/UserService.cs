@@ -90,7 +90,7 @@ namespace AcessaCity.Business.Services
 
         public async Task<IEnumerable<User>> AllUsersByCityHallId(Guid Id)
         {
-            return await _repo.Find(x => x.CityHallId == Id);
+            return await _repo.Find(x => x.CityHallId == Id && x.Active == true);
         }
 
         public void Dispose()
